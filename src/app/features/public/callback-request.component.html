@@ -1,0 +1,158 @@
+<section class="help-section" aria-labelledby="help-title">
+  <div class="help-heading">
+    <div>
+      <h2 id="help-title">
+        Need help? <span>Talk to us at</span>
+        <a href="tel:08047939623">08047939623</a>
+      </h2>
+    </div>
+    <div class="help-action">
+      <span>or</span>
+      <button
+        #requestButton
+        type="button"
+        aria-controls="callback-dialog"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="open()"
+        (click)="showForm()"
+      >
+        Request a Call <span aria-hidden="true">↗</span>
+      </button>
+    </div>
+  </div>
+  <dialog
+    #callbackDialog
+    id="callback-dialog"
+    aria-labelledby="callback-title"
+    aria-describedby="callback-description"
+    (cancel)="onCancel($event)"
+    (keydown)="keepFocus($event)"
+    (close)="onClosed()"
+  >
+    <form
+      id="callback-form"
+      #callbackForm="ngForm"
+      [attr.aria-busy]="sending()"
+      (ngSubmit)="submit(callbackForm)"
+      novalidate
+    >
+      <div class="form-heading">
+        <div>
+          <h2 id="callback-title">Request a Call</h2>
+          <p id="callback-description">
+            Tell us how to reach you. We’ll use these details to respond to your
+            request.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="close-form"
+          (click)="closeForm()"
+          aria-label="Close callback form"
+        >
+          ×
+        </button>
+      </div>
+      @if (sent()) {
+        <div class="success-message" role="status" tabindex="-1">
+          <h3>Thank you. Your callback request is saved.</h3>
+          <p>The FCC team will use your details to get in touch.</p>
+        </div>
+      } @else {
+        @if (error()) {
+          <p class="submit-error" role="alert">{{ error() }}</p>
+        }
+        <fieldset class="form-fields" [disabled]="sending()">
+          <div class="field">
+            <label for="callback-name">Your name <span>(required)</span></label>
+            <input
+              #nameInput
+              #nameField="ngModel"
+              id="callback-name"
+              name="name"
+              autocomplete="name"
+              [(ngModel)]="name"
+              required
+              minlength="2"
+              maxlength="80"
+              pattern=".*\S.*\S.*"
+              [attr.aria-invalid]="
+                nameField.invalid &&
+                (nameField.touched || callbackForm.submitted)
+                  ? 'true'
+                  : null
+              "
+              aria-describedby="callback-name-error"
+            />
+            <p
+              id="callback-name-error"
+              class="field-error"
+              [hidden]="
+                !nameField.invalid ||
+                (!nameField.touched && !callbackForm.submitted)
+              "
+            >
+              Enter your name (at least two characters).
+            </p>
+          </div>
+          <div class="field">
+            <label for="callback-phone"
+              >Phone number <span>(required)</span></label
+            >
+            <input
+              #phoneField="ngModel"
+              id="callback-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              [(ngModel)]="phone"
+              required
+              pattern="\+?(?:[0-9][ ()-]*){8,15}"
+              maxlength="32"
+              placeholder="e.g. +919876543210"
+              [attr.aria-invalid]="
+                phoneField.invalid &&
+                (phoneField.touched || callbackForm.submitted)
+                  ? 'true'
+                  : null
+              "
+              aria-describedby="callback-phone-hint callback-phone-error"
+            />
+            <p id="callback-phone-hint" class="field-hint">
+              Include your country code if you’re outside India.
+            </p>
+            <p
+              id="callback-phone-error"
+              class="field-error"
+              [hidden]="
+                !phoneField.invalid ||
+                (!phoneField.touched && !callbackForm.submitted)
+              "
+            >
+              Enter 8–15 digits, with an optional + country code.
+            </p>
+          </div>
+          <div class="field time-field">
+            <label for="callback-time"
+              >Preferred callback time <span>(optional)</span></label
+            >
+            <input
+              id="callback-time"
+              name="preferredTime"
+              [(ngModel)]="preferredTime"
+              maxlength="120"
+              placeholder="e.g. Tomorrow after 6 PM, IST"
+            />
+            <p class="field-hint">A preference, not a confirmed appointment.</p>
+          </div>
+        </fieldset>
+        <p class="privacy-note">
+          By submitting, you’re asking FCC to call you about learning English.
+        </p>
+        <button class="submit-request" type="submit" [disabled]="sending()">
+          {{ sending() ? "Sending…" : "Submit callback request" }}
+        </button>
+      }
+    </form>
+  </dialog>
+</section>

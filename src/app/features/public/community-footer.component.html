@@ -1,0 +1,50 @@
+<footer class="community-footer" aria-label="FCC footer">
+  <div class="footer-main">
+    <div class="footer-identity">
+      <a routerLink="/" class="footer-brand"
+        >Fearless<br />Communication Club<span>.</span></a
+      >
+      <p>English for your everyday.<br />Confidence for your future.</p>
+    </div>
+    <nav
+      class="footer-group footer-socials"
+      aria-labelledby="footer-social-title"
+    >
+      <h2 id="footer-social-title" class="footer-heading">Follow Bhuvana</h2>
+      <ul>
+        @for (social of socialLinks; track social.url) {
+          <li>
+            <a [href]="social.url" target="_blank" rel="noopener noreferrer"
+              ><fcc-social-icon [name]="social.icon" />{{ social.label }}</a
+            >
+          </li>
+        }
+      </ul>
+    </nav>
+    <div class="footer-group">
+      <h2 class="footer-heading">Get in touch</h2>
+      <a routerLink="/contact" class="footer-contact"
+        >Contact us <span aria-hidden="true">↗</span></a
+      >
+      <a class="footer-phone" [href]="contact.phoneUrl">{{
+        contact.phoneLabel
+      }}</a>
+      <a
+        class="footer-reviews"
+        [href]="links.reviewsUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Reviews on Trustpilot <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© {{ year }} Fearless Communication Club</p>
+    <a
+      class="footer-member"
+      [routerLink]="auth.user() ? '/dashboard' : '/login'"
+      >{{ auth.user() ? "My dashboard" : "Member sign in" }}
+      <span aria-hidden="true">↗</span></a
+    >
+  </div>
+</footer>

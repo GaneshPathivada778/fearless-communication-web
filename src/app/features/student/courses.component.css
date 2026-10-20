@@ -1,0 +1,607 @@
+:host {
+  display: block;
+  background-color: #f6f4ef;
+  min-height: calc(100vh - 80px);
+  color: #16241c;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.courses-page {
+  padding-bottom: 5rem;
+}
+
+.page-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+/* 1. Header Section */
+.courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.section-kicker {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #173e35;
+  background: #eaf3ee;
+  border: 1px solid #d1e2d8;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin: 0 0 0.75rem;
+}
+
+.page-title {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #11261d;
+  margin: 0 0 0.85rem;
+  line-height: 1.18;
+}
+
+.page-subtitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #4b6053;
+  max-width: 620px;
+  margin: 0;
+}
+
+.header-stats {
+  flex-shrink: 0;
+}
+
+.progress-pill-badge {
+  background: #ffffff;
+  border: 1px solid #e1e7e2;
+  border-radius: 18px;
+  padding: 0.85rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(18, 42, 33, 0.04);
+}
+
+.progress-number {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #173e35;
+  line-height: 1;
+}
+
+.progress-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #6b7e72;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+/* 2. Controls Section (Filter Pills & Search) */
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.category-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: #ffffff;
+  border: 1px solid #ded9ce;
+  color: #374b3e;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.filter-pill:hover:not(.is-active) {
+  border-color: #baa894;
+  background: #fdfbf7;
+}
+
+.filter-pill.is-active {
+  background: #173e35;
+  border-color: #173e35;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(23, 62, 53, 0.22);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.95rem;
+  width: 16px;
+  height: 16px;
+  color: #7b8e81;
+  pointer-events: none;
+}
+
+.search-input {
+  background: #ffffff;
+  border: 1px solid #ded9ce;
+  border-radius: 9999px;
+  padding: 0.55rem 1rem 0.55rem 2.4rem;
+  font-size: 0.88rem;
+  color: #17261d;
+  width: 250px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1d382b;
+  box-shadow: 0 0 0 3px rgba(29, 56, 43, 0.1);
+  width: 280px;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: #7a8d81;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+/* 3. Course Cards Grid */
+.courses-grid-section {
+  margin-bottom: 3.5rem;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.course-card {
+  background: #ffffff;
+  border: 1px solid #e3e8e4;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(18, 42, 33, 0.035);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(18, 42, 33, 0.09);
+  border-color: #c9d8d0;
+}
+
+.course-card.is-featured {
+  border-color: #173e35;
+  box-shadow: 0 0 0 1.5px #173e35, 0 8px 26px rgba(23, 62, 53, 0.08);
+}
+
+.card-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #edeae2;
+}
+
+.course-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.course-card:hover .course-thumb {
+  transform: scale(1.03);
+}
+
+/* Category Pill floating badge */
+.category-pill {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-fluency {
+  background: #eaf1ec;
+  color: #214e34;
+  border: 1px solid #d2dfd6;
+}
+
+.category-expression {
+  background: #faede6;
+  color: #9c4527;
+  border: 1px solid #f3d4c7;
+}
+
+.category-foundations {
+  background: #e8f0f3;
+  color: #1f4a5c;
+  border: 1px solid #d1e2e8;
+}
+
+.category-signature {
+  background: #1d382b;
+  color: #ffffff;
+  border: 1px solid #1d382b;
+}
+
+.category-default {
+  background: #edeae2;
+  color: #3b4d41;
+}
+
+/* Card Body Content */
+.card-content {
+  padding: 1.5rem 1.65rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: #697d70;
+  margin-bottom: 0.55rem;
+  font-weight: 500;
+}
+
+.meta-dot {
+  color: #a4b4aa;
+}
+
+.course-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #11261d;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin: 0 0 0.55rem;
+}
+
+.course-title-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.course-title-link:hover {
+  color: #173e35;
+}
+
+.course-desc {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #4a5c51;
+  margin: 0 0 1.25rem;
+  flex: 1;
+}
+
+/* Progress Track */
+.progress-section {
+  margin-bottom: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f0eee8;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: #ede8df;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.45rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #173e35, #2e7d62);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.progress-text-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.pct-text {
+  color: #173e35;
+  font-weight: 700;
+}
+
+.membership-badge {
+  color: #728478;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+/* Card Button */
+.card-action-row {
+  display: flex;
+}
+
+.course-btn {
+  width: 100%;
+  background: #eaf3ee;
+  color: #173e35;
+  border: 1px solid #c8dcd0;
+  border-radius: 9999px;
+  padding: 0.7rem 1.35rem;
+  font-size: 0.885rem;
+  font-weight: 650;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.course-btn:hover {
+  background: #173e35;
+  color: #ffffff;
+  border-color: #173e35;
+  box-shadow: 0 4px 16px rgba(23, 62, 53, 0.24);
+}
+
+.arrow-glyph {
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.course-btn:hover .arrow-glyph {
+  transform: translateX(3px);
+}
+
+/* Empty State */
+.empty-state-box {
+  grid-column: 1 / -1;
+  background: #ffffff;
+  border: 1px dashed #d5d1c6;
+  border-radius: 18px;
+  padding: 3.5rem 2rem;
+  text-align: center;
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a2a20;
+  margin: 0 0 0.5rem;
+}
+
+.empty-subtitle {
+  font-size: 0.92rem;
+  color: #63776b;
+  margin: 0 0 1.25rem;
+}
+
+.clear-filter-btn {
+  background: #1d382b;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.clear-filter-btn:hover {
+  background: #152920;
+}
+
+/* 4. Mentor Guidance Card (Matching Figma) */
+.mentor-guidance-card {
+  background: #ffffff;
+  border: 1px solid #e7e3da;
+  border-radius: 18px;
+  padding: 1.75rem 2.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  box-shadow: 0 4px 18px rgba(22, 36, 28, 0.03);
+  margin-bottom: 3.5rem;
+}
+
+.guidance-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 280px;
+}
+
+.compass-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f1ede5;
+  color: #1d382b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.compass-icon-circle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.guidance-title {
+  font-family: Georgia, "Playfair Display", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #16251d;
+  margin: 0 0 0.35rem;
+}
+
+.guidance-desc {
+  font-size: 0.92rem;
+  color: #55685c;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ask-mentor-btn {
+  background: #1d382b;
+  color: #ffffff;
+  padding: 0.7rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(29, 56, 43, 0.15);
+}
+
+.ask-mentor-btn:hover {
+  background: #152920;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(21, 41, 32, 0.25);
+}
+
+.ask-mentor-btn:hover .arrow-glyph {
+  transform: translate(2px, -2px);
+}
+
+/* 5. Footer Strip (Matching Figma Bottom) */
+.courses-page-footer {
+  border-top: 1px solid #e5e1d7;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-motto {
+  font-family: Georgia, "Playfair Display", serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #4a5c51;
+  margin: 0;
+}
+
+.footer-support-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #718477;
+}
+
+.support-kicker {
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.support-anchor {
+  color: #1d382b;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.support-anchor:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .courses-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .controls-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-input {
+    width: 100%;
+  }
+  .search-input:focus {
+    width: 100%;
+  }
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+  .mentor-guidance-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

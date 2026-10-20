@@ -1,0 +1,15 @@
+:host {
+  --fcc-navy: #102c38;
+  --fcc-cream: #faf8f1;
+  --fcc-accent: #def78b;
+  --fcc-muted: #50636a;
+  --fcc-line: #d7dfd9;
+  --fcc-on-dark: #cbd9dc;
+  --fcc-space: clamp(1rem, 2.5vw, 2.25rem);
+  --community-section-space: clamp(2.75rem, 5.5vw, 5rem);
+  display: block;
+  background: var(--fcc-cream);
+  color: var(--fcc-navy);
+  line-height: 1.6;
+  font-size: 1rem;
+}

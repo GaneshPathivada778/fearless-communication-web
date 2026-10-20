@@ -1,0 +1,532 @@
+<div class="community-page">
+  <div class="page-container" id="main-content">
+
+    <!-- Top Header Section (Matching Figma) -->
+    <header class="community-header">
+      <p class="section-kicker">YOUR PEOPLE. YOUR PLACE.</p>
+      <h1 class="page-title">Good conversations start here.</h1>
+      <p class="page-subtitle">
+        Share a small win, ask a real question, or simply say hello. This circle is yours, too.
+      </p>
+    </header>
+
+    <!-- 3-Column Community Layout Grid -->
+    <div class="community-layout-grid">
+
+      <!-- LEFT COLUMN: Profile & Navigation Sidebar (~240px) -->
+      <aside class="sidebar-left" aria-label="Member profile and conversation filters">
+
+        <!-- Member Mini-Profile Card -->
+        <div class="member-profile-card">
+          <div class="member-avatar-circle" aria-hidden="true">
+            {{ auth.user()?.name ? (auth.user()!.name.slice(0, 2).toUpperCase()) : 'AK' }}
+          </div>
+          <div class="member-profile-info">
+            <h2 class="member-name">{{ auth.user()?.name || 'Ananya Kapoor' }}</h2>
+            <p class="member-tier">Inner Circle · Since August 2026</p>
+            <a routerLink="/profile" class="profile-link">
+              <span>View your profile</span>
+              <span class="arrow-glyph" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Filter Navigation List -->
+        <nav class="feed-nav" aria-label="Community feed filters">
+          <button
+            type="button"
+            class="nav-filter-btn"
+            [class.is-active]="activeFilter() === 'all'"
+            (click)="selectFilter('all')"
+          >
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>All conversations</span>
+          </button>
+
+          <button
+            type="button"
+            class="nav-filter-btn"
+            [class.is-active]="activeFilter() === 'circles'"
+            (click)="selectFilter('circles')"
+          >
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>My circles</span>
+          </button>
+
+          <button
+            type="button"
+            class="nav-filter-btn"
+            [class.is-active]="activeFilter() === 'saved'"
+            (click)="selectFilter('saved')"
+          >
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Saved conversations</span>
+          </button>
+
+          <button
+            type="button"
+            class="nav-filter-btn"
+            [class.is-active]="activeFilter() === 'wins'"
+            (click)="selectFilter('wins')"
+          >
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Our little wins</span>
+          </button>
+        </nav>
+
+        <!-- Your Circles Section -->
+        <div class="sidebar-section">
+          <h3 class="sidebar-heading">YOUR CIRCLES</h3>
+          <div class="circles-list">
+            @for (circle of circles(); track circle.id) {
+              <a routerLink="/community" class="circle-item">
+                <span class="circle-name">{{ circle.name }}</span>
+                <span class="circle-badge">{{ circle.newConversations }} new</span>
+              </a>
+            }
+          </div>
+          <a routerLink="/courses" class="discover-link">
+            <span>Discover more circles</span>
+            <span class="arrow-glyph" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <!-- Conversation Starters Tags -->
+        <div class="sidebar-section">
+          <h3 class="sidebar-heading">CONVERSATION STARTERS</h3>
+          <div class="tags-cloud">
+            @for (tag of conversationStarters; track tag) {
+              <button
+                type="button"
+                class="tag-btn"
+                [class.is-active]="activeCircleTag() === tag"
+                (click)="filterByTag(tag)"
+              >
+                {{ tag }}
+              </button>
+            }
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- CENTER COLUMN: Composer & Feed (Wide ~620px) -->
+      <main class="feed-main-col">
+
+        <!-- 1. Interactive Composer Card -->
+        <section class="composer-card" aria-label="Create a new conversation post">
+          <div class="composer-top-row">
+            <div class="composer-avatar" aria-hidden="true">
+              {{ auth.user()?.name ? (auth.user()!.name.slice(0, 2).toUpperCase()) : 'AK' }}
+            </div>
+            <textarea
+              class="composer-textarea"
+              rows="2"
+              [(ngModel)]="newPostText"
+              [placeholder]="'What\'s on your mind, ' + (auth.user()?.name?.split(' ')?.[0] || 'Ananya') + '?'"
+              aria-label="What's on your mind"
+            ></textarea>
+          </div>
+
+          <div class="composer-bottom-row">
+            <div class="composer-actions">
+              <button
+                type="button"
+                class="action-pill-btn"
+                [class.is-active]="composerMode() === 'voice'"
+                (click)="composerMode.set('voice')"
+              >
+                <span aria-hidden="true">🎙</span>
+                <span>Voice note</span>
+              </button>
+
+              <button
+                type="button"
+                class="action-pill-btn"
+                [class.is-active]="composerMode() === 'question'"
+                (click)="composerMode.set('question')"
+              >
+                <span aria-hidden="true">❓</span>
+                <span>Ask a question</span>
+              </button>
+
+              <button
+                type="button"
+                class="action-pill-btn"
+                [class.is-active]="composerMode() === 'poll'"
+                (click)="composerMode.set('poll')"
+              >
+                <span aria-hidden="true">📊</span>
+                <span>Poll</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="share-btn"
+              [disabled]="!newPostText.trim()"
+              (click)="createPost()"
+            >
+              <span>Share a thought</span>
+              <span class="plus-glyph" aria-hidden="true">+</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 2. Feed Filter Header Strip -->
+        <div class="feed-filter-bar">
+          <div class="filter-left">
+            <span class="filter-title">From your circle</span>
+            @if (activeCircleTag()) {
+              <span class="active-tag-indicator">
+                {{ activeCircleTag() }}
+                <button type="button" class="remove-tag" (click)="activeCircleTag.set(null)" aria-label="Clear tag filter">✕</button>
+              </span>
+            }
+          </div>
+
+          <div class="filter-right">
+            <select
+              class="sort-select"
+              [ngModel]="sortOrder()"
+              (ngModelChange)="sortOrder.set($event)"
+              aria-label="Sort feed posts"
+            >
+              <option value="recent">Most recent</option>
+              <option value="popular">Most popular</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Community Posts Stream -->
+        <div class="posts-stream" aria-label="Community posts feed">
+
+          @for (post of filteredPosts(); track post.id) {
+            <article
+              class="post-card"
+              [class.is-pinned]="post.isPinned"
+              [attr.aria-label]="post.authorName + '\'s post'"
+            >
+              <!-- Pinned Kicker if applicable -->
+              @if (post.isPinned) {
+                <div class="pinned-kicker-row">
+                  <span class="pinned-kicker">{{ post.kicker }}</span>
+                </div>
+              }
+
+              <!-- Post Author Header -->
+              <div class="post-header-row">
+                <div class="author-block">
+                  @if (post.authorAvatar) {
+                    <img [src]="post.authorAvatar" [alt]="post.authorName" class="author-avatar-img" />
+                  } @else {
+                    <div class="author-avatar-circle" aria-hidden="true">{{ post.authorInitials }}</div>
+                  }
+
+                  <div class="author-meta-block">
+                    <div class="author-name-line">
+                      <span class="author-name">{{ post.authorName }}</span>
+                      @if (post.authorRole) {
+                        <span class="role-pill">{{ post.authorRole }}</span>
+                      }
+                    </div>
+                    <span class="post-time-meta">{{ post.timeAgo }} · {{ post.circleName }}</span>
+                  </div>
+                </div>
+
+                <div class="post-menu-action">
+                  <button type="button" class="post-options-btn" aria-label="Post options">···</button>
+                </div>
+              </div>
+
+              <!-- Post Body Content -->
+              <div class="post-body">
+                @if (post.kicker && !post.isPinned) {
+                  <span class="post-context-kicker">{{ post.kicker }}</span>
+                }
+
+                @if (post.title) {
+                  <h3 class="post-title">{{ post.title }}</h3>
+                }
+
+                <p class="post-text">{{ post.text }}</p>
+
+                <!-- Attached Workshop Card if present -->
+                @if (post.workshopCard) {
+                  <div class="workshop-card-embed">
+                    <img
+                      [src]="post.workshopCard.thumbnail"
+                      [alt]="post.workshopCard.title"
+                      class="workshop-thumb"
+                    />
+                    <div class="workshop-details">
+                      <h4 class="workshop-title">{{ post.workshopCard.title }}</h4>
+                      <p class="workshop-time">{{ post.workshopCard.time }}</p>
+                      <a [routerLink]="post.workshopCard.actionUrl" class="workshop-link">
+                        <span>Save your place</span>
+                        <span class="arrow-glyph" aria-hidden="true">↗</span>
+                      </a>
+                    </div>
+                  </div>
+                }
+
+                <!-- Category Tag Pill if present -->
+                @if (post.tag) {
+                  <div class="post-tag-row">
+                    <span class="moment-pill">{{ post.tag }}</span>
+                  </div>
+                }
+
+                <!-- Interactive Poll Widget if present -->
+                @if (post.poll) {
+                  <div class="poll-widget" role="group" [attr.aria-label]="post.poll.question">
+                    <div class="poll-options-list">
+                      @for (opt of post.poll.options; track opt.id) {
+                        <button
+                          type="button"
+                          class="poll-option-btn"
+                          [class.is-voted]="opt.selected"
+                          (click)="votePoll(post.id, opt.id)"
+                        >
+                          <div
+                            class="poll-fill-bar"
+                            [style.width.%]="getPollPercentage(opt.votes, post.poll.totalVotes)"
+                          ></div>
+                          <span class="poll-opt-label">
+                            {{ opt.label }}
+                            @if (opt.selected) {
+                              <span class="poll-check">✓</span>
+                            }
+                          </span>
+                          <span class="poll-opt-pct">
+                            {{ getPollPercentage(opt.votes, post.poll.totalVotes) }}%
+                          </span>
+                        </button>
+                      }
+                    </div>
+                    <p class="poll-meta-summary">
+                      {{ post.poll.totalVotes }} members voted · You voted · Poll ends tomorrow
+                    </p>
+                  </div>
+                }
+
+                <!-- Audio Waveform Player Widget if present -->
+                @if (post.audioNote) {
+                  <div class="audio-note-box">
+                    <div class="audio-player-row">
+                      <button
+                        type="button"
+                        class="audio-play-btn"
+                        [class.is-playing]="isAudioPlaying()"
+                        (click)="toggleAudio()"
+                        [attr.aria-label]="isAudioPlaying() ? 'Pause audio note' : 'Play audio note'"
+                      >
+                        {{ isAudioPlaying() ? '⏸' : '▶' }}
+                      </button>
+
+                      <!-- Simulated Waveform Bars -->
+                      <div class="waveform-container" aria-hidden="true">
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 12px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 20px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 26px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 16px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 32px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 22px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 14px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 28px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 18px;"></div>
+                        <div class="waveform-bar" [class.animating]="isAudioPlaying()" style="height: 10px;"></div>
+                      </div>
+
+                      <span class="audio-duration">{{ post.audioNote.duration }}</span>
+
+                      <button
+                        type="button"
+                        class="transcript-toggle-btn"
+                        (click)="showTranscript.set(!showTranscript())"
+                      >
+                        <span>Transcript</span>
+                        <span aria-hidden="true">{{ showTranscript() ? '▴' : '▾' }}</span>
+                      </button>
+                    </div>
+
+                    @if (showTranscript()) {
+                      <div class="transcript-content">
+                        <p>{{ post.audioNote.transcript }}</p>
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- Highlighted Reply if present -->
+                @if (post.highlightedReply) {
+                  <div class="highlighted-reply-box">
+                    <div class="reply-avatar">{{ post.highlightedReply.authorInitials }}</div>
+                    <div class="reply-body">
+                      <span class="reply-author">{{ post.highlightedReply.authorName }}</span>
+                      <p class="reply-text">{{ post.highlightedReply.text }}</p>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <!-- Post Action / Reactions Bar -->
+              <div class="post-reactions-bar">
+                <div class="reactions-left">
+                  <button
+                    type="button"
+                    class="reaction-btn"
+                    [class.is-liked]="post.isLiked"
+                    (click)="toggleLike(post.id)"
+                    [attr.aria-label]="post.isLiked ? 'Unlike post' : 'Like post'"
+                  >
+                    <span class="heart-icon">{{ post.isLiked ? '♥' : '♡' }}</span>
+                    <span>{{ post.likes }}</span>
+                  </button>
+
+                  <button type="button" class="reaction-btn" aria-label="Comments">
+                    <span aria-hidden="true">💬</span>
+                    <span>{{ post.commentsCount }} comments</span>
+                  </button>
+                </div>
+
+                <div class="reactions-right">
+                  <button
+                    type="button"
+                    class="reaction-btn bookmark-btn"
+                    [class.is-saved]="post.isSaved"
+                    (click)="toggleSave(post.id)"
+                    [attr.aria-label]="post.isSaved ? 'Remove from saved' : 'Save conversation'"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mini-bookmark" aria-hidden="true">
+                      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+            </article>
+          } @empty {
+            <div class="empty-feed-card">
+              <p class="empty-feed-title">No conversations found in this circle.</p>
+              <p class="empty-feed-desc">Be the first to share a win, question, or thought.</p>
+              <button type="button" class="reset-filter-btn" (click)="selectFilter('all')">
+                Show all conversations
+              </button>
+            </div>
+          }
+
+        </div>
+      </main>
+
+      <!-- RIGHT COLUMN: Events, Daily Practice & Community Care (~290px) -->
+      <aside class="sidebar-right" aria-label="Upcoming circle events and community guidelines">
+
+        <!-- 1. "NEXT IN THE CIRCLE" Card -->
+        <section class="next-circle-card" aria-label="Next live circle event">
+          <p class="card-kicker">NEXT IN THE CIRCLE</p>
+          <h3 class="card-title">The Friday Conversation Circle</h3>
+          <p class="card-time">Today · 6:00 PM IST</p>
+
+          <div class="mentor-row">
+            <img
+              src="/assets/bhuvaneswari-mentor.jpg"
+              alt="Bhuvaneswari Sistla"
+              class="mentor-tiny-avatar"
+            />
+            <span class="mentor-note">With Bhuvaneswari</span>
+          </div>
+
+          <a routerLink="/live-classes" class="registered-pill-btn">
+            <span>You're registered</span>
+            <span class="check-glyph" aria-hidden="true">✓</span>
+          </a>
+        </section>
+
+        <!-- 2. "THE DAILY PRACTICE" Voice Prompt Card -->
+        <section class="daily-practice-card" aria-label="Daily speaking practice prompt">
+          <div class="practice-mic-circle" aria-hidden="true">
+            🎙
+          </div>
+          <p class="card-kicker">THE DAILY PRACTICE</p>
+          <h3 class="card-title">A small story. A brave start.</h3>
+          <p class="card-desc">
+            Tell us about a moment you surprised yourself. One minute is all it takes.
+          </p>
+
+          <a routerLink="/courses/speak-with-confidence" class="practice-link">
+            <span>Share your voice</span>
+            <span class="arrow-glyph" aria-hidden="true">↗</span>
+          </a>
+
+          <p class="practice-stat-text">24 voices shared today</p>
+        </section>
+
+        <!-- 3. "FAMILIAR FACES" Section -->
+        <section class="familiar-faces-card" aria-label="Active club members">
+          <h3 class="sidebar-heading">FAMILIAR FACES</h3>
+          <div class="faces-list">
+            @for (face of familiarFaces(); track face.id) {
+              <div class="face-row">
+                <div class="face-left">
+                  <div class="face-avatar">{{ face.initials }}</div>
+                  <div class="face-text">
+                    <span class="face-name">{{ face.name }}</span>
+                    <span class="face-status">{{ face.status }}</span>
+                  </div>
+                </div>
+                <a routerLink="/messages" class="face-chat-btn" [attr.aria-label]="'Chat with ' + face.name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chat-icon" aria-hidden="true">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </a>
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- 4. Community Promise Card -->
+        <section class="promise-card" aria-label="Community promise and culture">
+          <div class="heart-icon-wrap" aria-hidden="true">
+            ♡
+          </div>
+          <h3 class="promise-title">Kindness is our first language.</h3>
+          <p class="promise-desc">
+            Listen generously. Celebrate progress. Give feedback with care. Every voice belongs here.
+          </p>
+          <a routerLink="/contact" class="promise-link">
+            <span>Our community promise</span>
+            <span class="arrow-glyph" aria-hidden="true">↗</span>
+          </a>
+        </section>
+
+      </aside>
+
+    </div>
+
+    <!-- Page Footer Brand Strip (Matching Site-Wide) -->
+    <footer class="community-page-footer">
+      <p class="footer-motto">A little practice. A little courage. Every day.</p>
+      <div class="footer-support-link">
+        <span class="support-kicker">YOUR VOICE BELONGS HERE.</span>
+        <span class="meta-dot" aria-hidden="true">·</span>
+        <a routerLink="/contact" class="support-anchor">
+          <span>Member support</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+</div>

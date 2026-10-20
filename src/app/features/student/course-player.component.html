@@ -1,0 +1,499 @@
+<div class="player-page">
+  <div class="page-container">
+
+    <!-- Top Breadcrumbs & Back Nav -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb navigation">
+      <a routerLink="/courses" class="back-link">
+        <span class="arrow-back" aria-hidden="true">←</span>
+        <span>The learning library</span>
+      </a>
+      <span class="breadcrumb-slash" aria-hidden="true">/</span>
+      <span class="breadcrumb-current">{{ courseTitle() }}</span>
+    </nav>
+
+    <!-- Program Main Header -->
+    <header class="program-header">
+      <div class="header-main">
+        <p class="program-kicker">{{ kicker() }}</p>
+        <h1 class="program-title">{{ courseTitle() }}</h1>
+
+        <div class="author-meta-row">
+          <img
+            [src]="mentorAvatar()"
+            [alt]="mentorName()"
+            class="mentor-avatar-img"
+          />
+          <div class="author-details">
+            <span class="author-text">
+              With <strong>{{ mentorName() }}</strong>
+            </span>
+            <span class="meta-dot" aria-hidden="true">·</span>
+            <span class="author-text">20 lessons</span>
+            <span class="meta-dot" aria-hidden="true">·</span>
+            <span class="author-text">4h 30m</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          type="button"
+          class="save-program-btn"
+          [class.is-saved]="isSaved()"
+          (click)="toggleSaveProgram()"
+          [attr.aria-pressed]="isSaved()"
+        >
+          <svg class="bookmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>{{ isSaved() ? 'Program saved' : 'Save program' }}</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main 2-Column Content Layout -->
+    <div class="player-layout-grid">
+
+      <!-- LEFT COLUMN: Video Player & Lesson Interactive Workspace (~65%) -->
+      <main class="player-main-col">
+
+        <!-- 1. Video Player Container -->
+        <section class="video-container" aria-label="Course lesson video player">
+          <!-- Floating Module Pill Tag -->
+          <div class="video-top-tag">
+            <span class="module-floating-pill">
+              MODULE {{ activeModule().moduleNumber }} · {{ activeModule().title | uppercase }}
+            </span>
+          </div>
+
+          <!-- Video Canvas / Real Video Player -->
+          <div class="video-canvas">
+            <video
+              #videoPlayer
+              class="video-element"
+              [src]="currentLesson().videoUrl || '/assets/daily-practice-speaking.mp4'"
+              [poster]="mentorAvatar()"
+              controls
+              playsinline
+              preload="metadata"
+              (play)="isPlaying.set(true)"
+              (pause)="isPlaying.set(false)"
+              (timeupdate)="onTimeUpdate(videoPlayer)"
+              [attr.aria-label]="currentLesson().title"
+            ></video>
+
+            <!-- Inspiring Quote Overlay (visible before play or when paused) -->
+            @if (!isPlaying()) {
+              <div class="quote-overlay-box">
+                <p class="quote-text">“{{ currentLesson().quote }}”</p>
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- 2. Current Lesson Header Row -->
+        <section class="lesson-meta-header">
+          <div class="lesson-title-area">
+            <span class="lesson-number-eyebrow">
+              LESSON {{ currentLesson().numberLabel }} · {{ currentLesson().duration }}
+            </span>
+            <h2 class="lesson-main-title">{{ currentLesson().title }}</h2>
+            <p class="lesson-subtitle-desc">{{ currentLesson().description }}</p>
+          </div>
+
+          <div class="lesson-complete-area">
+            <button
+              type="button"
+              class="mark-complete-btn"
+              [class.is-done]="currentLesson().completed"
+              (click)="toggleLessonComplete()"
+              [attr.aria-pressed]="currentLesson().completed"
+            >
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ currentLesson().completed ? 'Completed' : 'Mark complete' }}</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 3. Lesson Tabs Navigation -->
+        <nav class="lesson-tabs-nav" role="tablist" aria-label="Lesson tabs">
+          <button
+            type="button"
+            class="tab-btn"
+            [class.is-active]="activeTab() === 'notes'"
+            (click)="activeTab.set('notes')"
+            role="tab"
+            [attr.aria-selected]="activeTab() === 'notes'"
+          >
+            My notes
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn"
+            [class.is-active]="activeTab() === 'resources'"
+            (click)="activeTab.set('resources')"
+            role="tab"
+            [attr.aria-selected]="activeTab() === 'resources'"
+          >
+            Resources · 3
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn"
+            [class.is-active]="activeTab() === 'discussion'"
+            (click)="activeTab.set('discussion')"
+            role="tab"
+            [attr.aria-selected]="activeTab() === 'discussion'"
+          >
+            Discussion · {{ comments().length }}
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn"
+            [class.is-active]="activeTab() === 'assignment'"
+            (click)="activeTab.set('assignment')"
+            role="tab"
+            [attr.aria-selected]="activeTab() === 'assignment'"
+          >
+            Speaking assignment
+          </button>
+        </nav>
+
+        <!-- 4. Tab 1: My Notes (Matching Figma) -->
+        @if (activeTab() === 'notes') {
+          <section class="notes-panel" role="tabpanel" aria-label="My notes panel">
+            <div class="notes-card">
+              <div class="notes-head">
+                <h3 class="notes-title">My reflections on this lesson</h3>
+                <span class="save-status">
+                  <svg class="mini-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>{{ noteSavedStatus() }}</span>
+                </span>
+              </div>
+
+              <textarea
+                class="notes-textarea"
+                rows="4"
+                [ngModel]="noteText()"
+                (ngModelChange)="onNoteChange($event)"
+                aria-label="Notes on this lesson"
+                placeholder="Jot down personal takeaways, speaking goals, or key quotes…"
+              ></textarea>
+
+              <div class="timestamp-pill-row">
+                <button
+                  type="button"
+                  class="timestamp-pill"
+                  (click)="jumpToTimestamp('03:24')"
+                  aria-label="Jump to timestamp 03:24"
+                >
+                  <span class="pill-time">03:24</span>
+                  <span class="pill-label">Try: "What was the best part of your week?"</span>
+                </button>
+              </div>
+
+              <div class="notes-footer-note">
+                <span>Only you can see these notes.</span>
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- Tab 2: Resources Panel -->
+        @if (activeTab() === 'resources') {
+          <section class="resources-panel" role="tabpanel" aria-label="Lesson resources">
+            <div class="resources-list">
+              @for (res of resources(); track res.id) {
+                <div class="resource-row-item">
+                  <div class="resource-info">
+                    <div class="doc-icon-wrap" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </div>
+                    <div>
+                      <h4 class="resource-title">{{ res.title }}</h4>
+                      <p class="resource-meta">{{ res.fileType }} · {{ res.fileSize }}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    class="download-action-btn"
+                    (click)="downloadResource(res, $event)"
+                    [attr.aria-label]="'Download ' + res.title"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dl-icon" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Tab 3: Discussion Panel -->
+        @if (activeTab() === 'discussion') {
+          <section class="discussion-panel" role="tabpanel" aria-label="Lesson community discussion">
+            <div class="discussion-post-box">
+              <input
+                type="text"
+                class="comment-input"
+                placeholder="Share your takeaway or reflection from this lesson…"
+                [(ngModel)]="newCommentText"
+                (keyup.enter)="postComment()"
+              />
+              <button
+                type="button"
+                class="post-comment-btn"
+                [disabled]="!newCommentText.trim()"
+                (click)="postComment()"
+              >
+                Post
+              </button>
+            </div>
+          </section>
+        }
+
+        <!-- Tab 4: Speaking Assignment Panel -->
+        @if (activeTab() === 'assignment') {
+          <section class="assignment-panel" role="tabpanel" aria-label="Speaking practice assignment">
+            <div class="assignment-box">
+              <h3 class="assignment-box-title">Practice prompt: One question. One connection.</h3>
+              <p class="assignment-box-desc">
+                Record a 60-second conversation starter using an open-ended question. Bhuvaneswari and club mentors will review your recording with gentle, actionable tips.
+              </p>
+
+              <div class="recorder-widget">
+                <div class="recorder-status">
+                  @if (isRecording()) {
+                    <span class="rec-dot"></span>
+                    <span class="rec-timer">00:{{ recordingSeconds() < 10 ? '0' + recordingSeconds() : recordingSeconds() }} / 01:00</span>
+                  } @else if (assignmentSubmitted()) {
+                    <span class="rec-success">✓ Assignment ready for mentor review</span>
+                  } @else {
+                    <span>Ready to record (60s max)</span>
+                  }
+                </div>
+
+                <div class="recorder-actions">
+                  <button
+                    type="button"
+                    class="record-btn"
+                    [class.is-recording]="isRecording()"
+                    (click)="startRecording()"
+                  >
+                    <span>{{ isRecording() ? 'Stop recording ⏹' : 'Start recording 🎙' }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- 5. Community "Keep the conversation going" Box (Matching Figma bottom) -->
+        <section class="community-preview-section" aria-label="Community discussion preview">
+          <div class="community-header-row">
+            <h3 class="community-section-title">Keep the conversation going</h3>
+            <button
+              type="button"
+              class="all-comments-link"
+              (click)="activeTab.set('discussion')"
+            >
+              <span>All {{ comments().length }} comments</span>
+              <span class="arrow-glyph" aria-hidden="true">↗</span>
+            </button>
+          </div>
+
+          <div class="comments-stream">
+            @for (comm of comments(); track comm.id) {
+              <article class="comment-card">
+                <img [src]="comm.authorAvatar" [alt]="comm.authorName" class="comment-author-avatar" />
+                <div class="comment-body">
+                  <div class="comment-author-line">
+                    <span class="comment-author-name">{{ comm.authorName }}</span>
+                    @if (comm.authorRole === 'Mentor') {
+                      <span class="mentor-badge-pill">Mentor</span>
+                    }
+                  </div>
+                  <p class="comment-text-content">{{ comm.text }}</p>
+                  <div class="comment-meta-bar">
+                    <span class="likes-count">♡ {{ comm.likes }}</span>
+                    <span class="meta-dot" aria-hidden="true">·</span>
+                    <button type="button" class="reply-action-btn" (click)="activeTab.set('discussion')">Reply</button>
+                    <span class="meta-dot" aria-hidden="true">·</span>
+                    <span class="time-ago">{{ comm.timeAgo }}</span>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT COLUMN: Learning Path Accordion & Practice Sidebar (~35%) -->
+      <aside class="player-sidebar-col" aria-label="Course curriculum and practice path">
+
+        <!-- 1. "Your learning path" Progress & Accordions -->
+        <section class="learning-path-card" aria-label="Course modules and lesson path">
+          <div class="path-card-header">
+            <h2 class="path-card-title">Your learning path</h2>
+            <span class="path-percent-badge">{{ progressStats().percent }}%</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="path-progress-track" role="progressbar" [attr.aria-valuenow]="progressStats().percent" aria-valuemin="0" aria-valuemax="100">
+            <div class="path-progress-fill" [style.width.%]="progressStats().percent"></div>
+          </div>
+          <p class="path-progress-label">
+            {{ progressStats().completed }} of {{ progressStats().total }} lessons complete. Keep going.
+          </p>
+
+          <!-- Module Accordion List -->
+          <div class="modules-accordion-list">
+            @for (mod of modules(); track mod.id) {
+              <div class="module-group" [class.is-expanded]="mod.expanded">
+                <!-- Module Header Accordion Trigger -->
+                <button
+                  type="button"
+                  class="module-header-btn"
+                  (click)="toggleModule(mod.id)"
+                  [attr.aria-expanded]="mod.expanded"
+                  [attr.aria-controls]="'module-body-' + mod.id"
+                >
+                  <div class="mod-head-left">
+                    <!-- Status Icon: Checked circle if completed, else bullet/number -->
+                    <span
+                      class="mod-status-icon"
+                      [class.is-completed]="mod.completed"
+                      aria-hidden="true"
+                    >
+                      @if (mod.completed) {
+                        ✓
+                      } @else {
+                        ○
+                      }
+                    </span>
+                    <div class="mod-title-box">
+                      <span class="mod-number-title">{{ mod.moduleNumber }} · {{ mod.title }}</span>
+                      <span class="mod-summary-text">{{ mod.summary }}</span>
+                    </div>
+                  </div>
+
+                  <span class="mod-chevron" [class.is-flipped]="mod.expanded" aria-hidden="true">
+                    ⌄
+                  </span>
+                </button>
+
+                <!-- Module Lessons List (Expanded Body) -->
+                @if (mod.expanded) {
+                  <div class="module-lessons-list" [id]="'module-body-' + mod.id" role="region">
+                    @for (lesson of mod.lessons; track lesson.id) {
+                      <button
+                        type="button"
+                        class="lesson-item-btn"
+                        [class.is-current]="lesson.id === currentLessonId()"
+                        (click)="selectLesson(mod.id, lesson.id)"
+                        [attr.aria-current]="lesson.id === currentLessonId() ? 'true' : null"
+                      >
+                        <div class="lesson-left">
+                          @if (lesson.id === currentLessonId()) {
+                            <span class="playing-indicator-icon" aria-label="Currently selected">▶</span>
+                          } @else if (lesson.completed) {
+                            <span class="lesson-completed-icon" aria-label="Lesson completed">✓</span>
+                          } @else {
+                            <span class="lesson-pending-icon" aria-hidden="true">○</span>
+                          }
+                          <span class="lesson-label-title">
+                            {{ lesson.numberLabel }} · {{ lesson.title }}
+                          </span>
+                        </div>
+                        <span class="lesson-duration-badge">{{ lesson.duration }}</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- 2. Dark Green Banner: "PUT YOUR VOICE INTO PRACTICE" -->
+        <section class="practice-assignment-banner" aria-label="Featured speaking challenge">
+          <p class="banner-kicker">PUT YOUR VOICE INTO PRACTICE</p>
+          <h3 class="banner-title">One question. One connection.</h3>
+          <p class="banner-desc">
+            Record a 60-second conversation starter using an open-ended question. Your mentor will share gentle feedback.
+          </p>
+
+          <button
+            type="button"
+            class="record-cta-btn"
+            (click)="activeTab.set('assignment')"
+            aria-label="Open speaking assignment recorder"
+          >
+            <span class="btn-text">Record your assignment</span>
+            <span class="mic-icon" aria-hidden="true">🎙</span>
+          </button>
+
+          <p class="banner-sublabel">
+            {{ assignmentSubmitted() ? 'Submitted · Mentor feedback in progress.' : 'Not submitted · No deadline, just progress.' }}
+          </p>
+        </section>
+
+        <!-- 3. Downloads: "For your practice" -->
+        <section class="practice-downloads-card" aria-label="Downloadable course materials">
+          <h3 class="downloads-card-title">For your practice</h3>
+
+          <div class="downloads-list">
+            @for (res of resources(); track res.id) {
+              <div class="download-row">
+                <div class="dl-left">
+                  <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  <div class="dl-text-wrap">
+                    <span class="dl-title">{{ res.title }}</span>
+                    <span class="dl-meta">{{ res.fileType }} · {{ res.fileSize }}</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="dl-btn"
+                  (click)="downloadResource(res, $event)"
+                  [attr.aria-label]="'Download ' + res.title"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dl-arrow" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </button>
+              </div>
+            }
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+
+    <!-- Page Footer Brand Strip (Matching Figma Bottom) -->
+    <footer class="player-page-footer">
+      <p class="footer-motto">A little practice. A little courage. Every day.</p>
+      <div class="footer-support-link">
+        <span class="support-kicker">YOUR VOICE BELONGS HERE.</span>
+        <span class="meta-dot" aria-hidden="true">·</span>
+        <a routerLink="/contact" class="support-anchor">
+          <span>Member support</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+</div>

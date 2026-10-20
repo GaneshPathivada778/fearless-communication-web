@@ -1,0 +1,279 @@
+<div class="live-classes-page">
+  <!-- Main Container -->
+  <main class="page-container">
+
+    <!-- Top Schedule Header -->
+    <header class="schedule-header">
+      <div class="header-text">
+        <p class="section-kicker">LIVE CLASSES</p>
+        <h1 class="page-title">Your live class schedule</h1>
+        <p class="page-subtitle">
+          Join Bhuvaneswari live on Zoom for guided practice, role-play, conversation circles, and storytelling
+          sessions.
+        </p>
+      </div>
+
+      <div class="header-actions">
+        <!-- Add schedule to calendar link (opens new tab securely) -->
+        <a class="calendar-pill-btn" [href]="masterCalendarUrl" target="_blank" rel="noopener noreferrer"
+          aria-label="Add full schedule to Google calendar, opens in new tab">
+          <span>Add schedule to calendar</span>
+          <span class="external-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <!-- Admin Add Class Button -->
+        @if (isAdmin()) {
+        <button type="button" class="admin-add-btn" (click)="openAddModal()" aria-haspopup="dialog">
+          <span aria-hidden="true">+</span> Add Class (Admin)
+        </button>
+        }
+      </div>
+    </header>
+
+    <!-- Weekly Calendar Strip Section -->
+    <section class="calendar-section" aria-label="Weekly class calendar">
+      <!-- Calendar Bar Header -->
+      <div class="calendar-controls">
+        <div class="calendar-nav-left">
+          <span class="month-label">{{ currentMonthLabel() }}</span>
+          <div class="nav-arrows" role="group" aria-label="Calendar navigation">
+            <button type="button" class="arrow-btn" (click)="previousWeek()" aria-label="Previous week">
+              ‹
+            </button>
+            <button type="button" class="arrow-btn" (click)="nextWeek()" aria-label="Next week">
+              ›
+            </button>
+          </div>
+          <button type="button" class="this-week-pill" (click)="resetToCurrentWeek()">
+            THIS WEEK
+          </button>
+        </div>
+
+        <div class="timezone-badge" aria-label="Timezone: India Standard Time">
+          <span>All times in India Standard Time (IST)</span>
+          <span class="tz-chevron" aria-hidden="true">⌵</span>
+        </div>
+      </div>
+
+      <!-- Calendar Strip Days -->
+      <div class="days-strip" role="list">
+        @for (day of calendarDays(); track day.dateNumber) {
+        <button type="button" class="day-card" [class.is-selected]="selectedDay() === day.dateNumber"
+          [class.is-today]="day.isToday" (click)="selectDay(day.dateNumber)" role="listitem"
+          [attr.aria-pressed]="selectedDay() === day.dateNumber" [attr.aria-current]="day.isToday ? 'date' : null">
+          <!-- Top day name, today badge, & live class indicator dot -->
+          <div class="day-card-top">
+            <div class="day-name-group">
+              <span class="day-name">{{ day.dayName }}</span>
+              @if (day.isToday) {
+              <span class="today-badge">TODAY</span>
+              }
+            </div>
+            @if (day.hasLiveClass) {
+            <span class="live-dot" title="Live class scheduled" aria-label="Live class scheduled"></span>
+            }
+          </div>
+
+          <!-- Big Date Number -->
+          <span class="day-number">{{ day.dateNumber }}</span>
+
+          <!-- Bottom Label -->
+          <span class="day-label">{{ day.label }}</span>
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Upcoming Live Classes List Section -->
+    <section class="classes-list-section" aria-labelledby="upcoming-heading">
+      <div class="section-top-bar">
+        <div class="heading-filter-wrapper">
+          <h2 id="upcoming-heading" class="section-heading">Upcoming live classes</h2>
+          @if (activeFilterLabel()) {
+          <div class="active-filter-chip">
+            <span class="filter-dot"></span>
+            <span>Showing: <strong>{{ activeFilterLabel() }}</strong></span>
+            <button type="button" class="clear-chip-btn" (click)="clearFilter()" aria-label="Clear date filter"
+              title="Clear date filter and show all classes">
+              ✕
+            </button>
+          </div>
+          }
+        </div>
+
+        <a class="past-sessions-link" href="#past-sessions" (click)="$event.preventDefault(); showPastNotice()">
+          <span>View past sessions</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <!-- Cards Stack -->
+      <div class="cards-stack">
+        @for (item of filteredClasses(); track item.id) {
+        <article class="class-row-card" [class.card-live-now]="item.isLive" [attr.aria-label]="item.title">
+          <!-- Left Date Badge -->
+          <div class="date-badge" aria-hidden="true">
+            <span class="badge-number">{{ item.dateNumber }}</span>
+            <span class="badge-sub">{{ item.dateSub }}</span>
+          </div>
+
+          <!-- Center Content -->
+          <div class="card-details">
+            <div class="tag-row">
+              <span class="category-pill" [ngClass]="getCategoryClass(item.tag)">
+                {{ item.tag }}
+              </span>
+              @if (item.isLive) {
+              <span class="live-indicator-pill">
+                <span class="pulse-circle" aria-hidden="true"></span>
+                LIVE NOW
+              </span>
+              }
+            </div>
+
+            <h3 class="class-title">{{ item.title }}</h3>
+            <p class="class-description">{{ item.description }}</p>
+
+            <!-- Coach & Time line -->
+            <div class="coach-time-line">
+              <img class="coach-avatar" [src]="item.coachAvatar" alt="Coach avatar" width="28" height="28" />
+              <span class="coach-name">{{ item.coach }}</span>
+              <span class="meta-dot" aria-hidden="true">·</span>
+              <span class="time-text">{{ item.timeLabel }}</span>
+            </div>
+          </div>
+
+          <!-- Right Actions -->
+          <div class="card-actions-col">
+            <a class="join-zoom-btn" [href]="item.zoomUrl" target="_blank" rel="noopener noreferrer"
+              [attr.aria-label]="'Join ' + item.title + ' on Zoom, opens in new tab'">
+              <span>Join on Zoom</span>
+              <span class="arrow-glyph" aria-hidden="true">↗</span>
+            </a>
+
+            <!-- Multi-format calendar export actions -->
+            <div class="cal-actions-cluster">
+              <a class="add-calendar-link" [href]="getGoogleCalendarUrl(item)" target="_blank" rel="noopener noreferrer"
+                aria-label="Add to Google Calendar, opens in new tab">
+                + Google Cal
+              </a>
+              <span class="cal-sep" aria-hidden="true">·</span>
+              <button type="button" class="add-ics-btn" (click)="downloadIcsFile(item)"
+                aria-label="Download .ICS file for Apple Calendar or Outlook"
+                title="Download .ICS for Apple Calendar, Outlook, and Mobile">
+                .ICS File
+              </button>
+            </div>
+
+            <!-- Admin controls (delete, live toggle) -->
+            @if (isAdmin()) {
+            <div class="admin-row-actions">
+              <button type="button" class="admin-toggle-btn" (click)="toggleLiveStatus(item.id)">
+                {{ item.isLive ? "Upcoming" : "Live" }}
+              </button>
+              <button type="button" class="admin-del-btn" (click)="deleteClass(item.id)">
+                Delete
+              </button>
+            </div>
+            }
+          </div>
+        </article>
+        } @empty {
+        <div class="empty-state-box">
+          <p class="empty-title">No classes scheduled for this date</p>
+          <p class="empty-subtitle">
+            Select another day from the calendar above or view all upcoming classes.
+          </p>
+          <button type="button" class="clear-filter-btn" (click)="selectedDay.set(null)">
+            Show all upcoming classes
+          </button>
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- Page Footer Brand Strip (Matching Figma Bottom) -->
+    <footer class="live-page-footer">
+      <p class="footer-motto">A little practice. A little courage. Every day.</p>
+      <div class="footer-support-link">
+        <span class="support-kicker">YOUR VOICE BELONGS HERE.</span>
+        <span class="meta-dot" aria-hidden="true">·</span>
+        <a routerLink="/contact" class="support-anchor">
+          <span>Member support</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Admin Add Class Modal Dialog -->
+  @if (showAddModal()) {
+  <div class="modal-overlay" (click)="closeAddModal()" (keydown.escape)="closeAddModal()" role="presentation">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="add-modal-title"
+      (click)="$event.stopPropagation()">
+      <div class="modal-top">
+        <h2 id="add-modal-title">Add Upcoming Live Class</h2>
+        <button type="button" class="modal-x-btn" (click)="closeAddModal()" aria-label="Close dialog">
+          ×
+        </button>
+      </div>
+
+      <form (ngSubmit)="saveClass()" #classForm="ngForm" class="modal-body-form">
+        <div class="field-item">
+          <label for="new-title">Class Title *</label>
+          <input id="new-title" type="text" name="title" [(ngModel)]="newClassForm.title" required
+            placeholder="e.g. Small Talk, Real Connections" />
+        </div>
+
+        <div class="field-item">
+          <label for="new-desc">Description *</label>
+          <textarea id="new-desc" name="description" rows="3" [(ngModel)]="newClassForm.description" required
+            placeholder="Brief description of the practice session..."></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field-item">
+            <label for="new-tag">Category Tag *</label>
+            <input id="new-tag" type="text" name="tag" [(ngModel)]="newClassForm.tag" required
+              placeholder="e.g. GUIDED PRACTICE" />
+          </div>
+          <div class="field-item">
+            <label for="new-date-num">Date Day (1-31) *</label>
+            <input id="new-date-num" type="number" name="dateNumber" [(ngModel)]="newClassForm.dateNumber" required
+              placeholder="20" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-item">
+            <label for="new-date-sub">Month & Day *</label>
+            <input id="new-date-sub" type="text" name="dateSub" [(ngModel)]="newClassForm.dateSub" required
+              placeholder="e.g. OCT · TUE" />
+          </div>
+          <div class="field-item">
+            <label for="new-time">Time & Duration *</label>
+            <input id="new-time" type="text" name="timeLabel" [(ngModel)]="newClassForm.timeLabel" required
+              placeholder="e.g. 7:00–8:00 PM IST · 60 min" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label for="new-zoom">Zoom Meeting URL *</label>
+          <input id="new-zoom" type="url" name="zoomUrl" [(ngModel)]="newClassForm.zoomUrl" required
+            placeholder="https://zoom.us/j/..." />
+        </div>
+
+        <div class="modal-actions-bar">
+          <button type="button" class="btn-cancel" (click)="closeAddModal()">
+            Cancel
+          </button>
+          <button type="submit" class="btn-save" [disabled]="!classForm.form.valid">
+            Add Class
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</div>

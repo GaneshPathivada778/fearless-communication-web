@@ -1,0 +1,201 @@
+<div class="courses-page">
+  <main class="page-container" id="main-content">
+
+    <!-- Top Header Section (Matching Figma Editorial Vibe) -->
+    <header class="courses-header">
+      <div class="header-text">
+        <p class="section-kicker">YOUR LEARNING LIBRARY</p>
+        <h1 class="page-title">Courses & practice paths</h1>
+        <p class="page-subtitle">
+          Curated modules to practice speaking, storytelling, and fluency at your own pace.
+        </p>
+      </div>
+
+      <div class="header-stats" aria-label="Learning progress summary">
+        <div class="progress-pill-badge">
+          <span class="progress-number">{{ overallProgress() }}%</span>
+          <span class="progress-label">Library completed</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Controls Row: Category Filter Pills & Search Input -->
+    <section class="controls-section" aria-label="Course filters and search">
+      <div class="category-pills-row" role="tablist" aria-label="Course categories">
+        @for (cat of categories; track cat.id) {
+          <button
+            type="button"
+            class="filter-pill"
+            [class.is-active]="selectedCategory() === cat.id"
+            (click)="selectCategory(cat.id)"
+            role="tab"
+            [attr.aria-selected]="selectedCategory() === cat.id"
+          >
+            {{ cat.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="search-box">
+        <svg
+          class="search-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Search by topic, keyword..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          aria-label="Search courses"
+        />
+        @if (searchQuery()) {
+          <button
+            type="button"
+            class="clear-search-btn"
+            (click)="clearSearch()"
+            aria-label="Clear search input"
+          >
+            ✕
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Course Cards Grid -->
+    <section class="courses-grid-section" aria-label="Available courses list">
+      <div class="courses-grid">
+        @for (course of filteredCourses(); track course.id) {
+          <article
+            class="course-card"
+            [class.is-featured]="course.isFeatured"
+            [attr.aria-label]="course.title"
+          >
+            <!-- Card Thumbnail Container -->
+            <a [routerLink]="['/courses', course.id]" class="card-thumb-wrap" [attr.aria-label]="'Open ' + course.title">
+              <img
+                [src]="course.thumbnail"
+                [alt]="course.title + ' cover image'"
+                class="course-thumb"
+                loading="lazy"
+              />
+              <span class="category-pill" [ngClass]="getCategoryClass(course.tag)">
+                {{ course.tag }}
+              </span>
+            </a>
+
+            <!-- Card Body -->
+            <div class="card-content">
+              <div class="meta-row">
+                <span class="meta-item">{{ course.lessonsCount }} lessons</span>
+                <span class="meta-dot" aria-hidden="true">·</span>
+                <span class="meta-item">{{ course.durationLabel }}</span>
+                <span class="meta-dot" aria-hidden="true">·</span>
+                <span class="meta-item">{{ course.levelLabel }}</span>
+              </div>
+
+              <h2 class="course-title">
+                <a [routerLink]="['/courses', course.id]" class="course-title-link">{{ course.title }}</a>
+              </h2>
+              <p class="course-desc">{{ course.description }}</p>
+
+              <!-- Progress Bar -->
+              <div class="progress-section" aria-label="Course completion status">
+                <div class="progress-track" role="progressbar" [attr.aria-valuenow]="course.progressPercent" aria-valuemin="0" aria-valuemax="100">
+                  <div
+                    class="progress-fill"
+                    [style.width.%]="course.progressPercent"
+                  ></div>
+                </div>
+                <div class="progress-text-row">
+                  <span class="pct-text">
+                    {{ course.progressPercent > 0 ? course.progressPercent + '% completed' : 'Not started' }}
+                  </span>
+                  <span class="membership-badge">{{ course.badgeLabel }}</span>
+                </div>
+              </div>
+
+              <!-- Card Action Button -->
+              <div class="card-action-row">
+                <a
+                  class="course-btn"
+                  [routerLink]="['/courses', course.id]"
+                >
+                  <span>{{ course.progressPercent > 0 ? 'Continue course' : 'Start course' }}</span>
+                  <span class="arrow-glyph" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        } @empty {
+          <div class="empty-state-box">
+            <p class="empty-title">No courses match your filter</p>
+            <p class="empty-subtitle">
+              Try adjusting your search terms or select "All courses" above.
+            </p>
+            <button
+              type="button"
+              class="clear-filter-btn"
+              (click)="selectedCategory.set('all'); clearSearch()"
+            >
+              Show all courses
+            </button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Mentor Guidance & Recommendation Box (Matching Figma Bottom) -->
+    <section class="mentor-guidance-card" aria-label="Mentor guidance and recommendations">
+      <div class="guidance-left">
+        <div class="compass-icon-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+        </div>
+        <div class="guidance-text">
+          <h2 class="guidance-title">Not sure where to begin?</h2>
+          <p class="guidance-desc">
+            Tell Bhuvaneswari what you'd like to feel more confident about. We'll find your first step.
+          </p>
+        </div>
+      </div>
+
+      <div class="guidance-actions">
+        <a
+          routerLink="/contact"
+          class="ask-mentor-btn"
+          aria-label="Ask your mentor for personalized learning roadmap"
+        >
+          <span>Ask your mentor</span>
+          <span class="arrow-glyph" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Page Footer Brand Strip (Matching Figma Bottom) -->
+    <footer class="courses-page-footer">
+      <p class="footer-motto">A little practice. A little courage. Every day.</p>
+      <div class="footer-support-link">
+        <span class="support-kicker">YOUR VOICE BELONGS HERE.</span>
+        <span class="meta-dot" aria-hidden="true">·</span>
+        <a routerLink="/contact" class="support-anchor">
+          <span>Member support</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </footer>
+
+  </main>
+</div>

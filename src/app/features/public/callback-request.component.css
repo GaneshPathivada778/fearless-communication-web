@@ -1,0 +1,233 @@
+:host {
+  display: block;
+  color: var(--fcc-navy);
+}
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+.help-section {
+  border-top: 1px solid var(--fcc-line);
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+.help-heading {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: 0 var(--fcc-space);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+h2,
+h3,
+p {
+  margin: 0;
+}
+h2 {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.help-heading p {
+  margin-top: 0.65rem;
+  font-size: 1.05rem;
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+  font-weight: 700;
+}
+.help-action {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.help-action > span {
+  color: var(--fcc-muted);
+}
+button {
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px;
+  color: var(--fcc-navy);
+}
+.help-action button,
+.submit-request {
+  padding: 0.8rem 1.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--fcc-navy);
+  font-weight: 650;
+}
+.help-action button {
+  display: inline-flex;
+  gap: 1.5rem;
+  background: transparent;
+}
+.help-action button:hover {
+  background: var(--fcc-navy);
+  color: var(--fcc-cream);
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--fcc-navy);
+  outline-offset: 4px;
+}
+dialog {
+  width: min(42rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--fcc-line);
+  border-radius: 0.75rem;
+  background: var(--fcc-cream);
+  color: var(--fcc-navy);
+  box-shadow: 0 1.5rem 5rem #102c3840;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  background: #102c38b3;
+}
+form {
+  margin: 0;
+}
+#callback-title {
+  font-size: 1.65rem;
+}
+.form-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+.form-heading p {
+  color: var(--fcc-muted);
+  margin-top: 0.5rem;
+}
+.close-form {
+  min-width: 44px;
+  background: transparent;
+  border: 1px solid var(--fcc-line);
+  font-size: 1.5rem;
+  border-radius: 0.25rem;
+}
+.form-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.field {
+  min-width: 0;
+}
+label {
+  display: block;
+  font-weight: 650;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+label span {
+  font-weight: 400;
+  color: var(--fcc-muted);
+  font-size: 0.8rem;
+}
+input {
+  width: 100%;
+  min-height: 48px;
+  background: #fff;
+  border: 1px solid var(--fcc-muted);
+  border-radius: 0.25rem;
+  color: var(--fcc-navy);
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+}
+input::placeholder {
+  color: var(--fcc-muted);
+}
+input[aria-invalid="true"] {
+  border-color: #9c2929;
+}
+.field-hint,
+.field-error {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+}
+.field-hint {
+  color: var(--fcc-muted);
+}
+.field-error {
+  color: #9c2929;
+}
+.time-field {
+  grid-column: 1 / -1;
+}
+.submit-request {
+  background: var(--fcc-accent);
+  margin-top: 1.5rem;
+}
+.submit-request:hover {
+  background: #d1ec73;
+}
+@media (max-width: 700px) {
+  .help-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+  .help-action {
+    gap: 1rem;
+  }
+  .form-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+h2 span {
+  font-weight: 400;
+}
+h2 a {
+  display: inline-block;
+}
+.form-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.privacy-note {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--fcc-muted);
+}
+.submit-error {
+  margin-bottom: 1rem;
+  color: #9c2929;
+}
+.success-message {
+  padding-block: 1rem;
+}
+.success-message p {
+  margin-top: 0.5rem;
+  color: var(--fcc-muted);
+}
+.success-message:focus {
+  outline: none;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.help-heading h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em;
+}

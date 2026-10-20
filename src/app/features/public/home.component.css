@@ -1,0 +1,742 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+}
+
+/* ==========================================================================
+   Navigation Header
+   ========================================================================== */
+.community-header {
+  padding: 1.1rem 0;
+  background: var(--fcc-navy);
+  color: var(--fcc-cream);
+  border-bottom: 1px solid #ffffff24;
+  position: relative;
+  z-index: 20;
+}
+
+.header-inner {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: 0 var(--fcc-space);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.community-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  font-weight: 650;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-monogram {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.09em;
+}
+
+.brand-monogram span {
+  color: var(--fcc-accent);
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#community-navigation {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  font-size: 0.85rem;
+}
+
+#community-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+#community-navigation a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.member-link {
+  color: var(--fcc-accent) !important;
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  #community-navigation {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--fcc-navy);
+    padding: 1rem var(--fcc-space) 2rem;
+    border-bottom: 1px solid #ffffff24;
+    gap: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  #community-navigation.is-open {
+    display: flex;
+  }
+}
+
+/* ==========================================================================
+   Common Section Tokens & Layout
+   ========================================================================== */
+.community-section {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: var(--community-section-space) var(--fcc-space);
+}
+
+.kicker {
+  color: var(--fcc-accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+}
+
+.learning-section .kicker,
+.audience-section .kicker,
+.stories-section .kicker,
+.registration-section .kicker {
+  color: #166534;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+h2 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--fcc-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  transition: opacity 0.15s ease;
+}
+
+.text-link:hover {
+  opacity: 0.85;
+}
+
+.stories-section .text-link {
+  color: var(--fcc-navy);
+}
+
+.community-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--fcc-accent);
+  color: var(--fcc-navy);
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.community-cta:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+/* ==========================================================================
+   1. Community Hero Section
+   ========================================================================== */
+.community-hero {
+  position: relative;
+  min-height: clamp(28rem, 65vh, 48rem);
+  background: var(--fcc-navy);
+  color: var(--fcc-cream);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero-portrait {
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.hero-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero-inner h1 {
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  margin: 0 0 1.25rem;
+  max-width: 50rem;
+}
+
+.hero-inner h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: var(--fcc-accent);
+}
+
+.hero-promise {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.hero-description {
+  max-width: 38rem;
+  color: var(--fcc-on-dark);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0 0 2rem;
+}
+
+/* ==========================================================================
+   2. Life Inside FCC (Learning Section)
+   ========================================================================== */
+.learning-section {
+  background: var(--fcc-cream);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.section-heading > p {
+  max-width: 24rem;
+  color: var(--fcc-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.outcomes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2rem;
+}
+
+.outcomes-list li {
+  background: #ffffff;
+  border: 1px solid var(--fcc-line);
+  border-radius: 1.25rem;
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 4px 14px rgba(16, 44, 56, 0.04);
+}
+
+.outcome-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--fcc-muted);
+  opacity: 0.35;
+  line-height: 1;
+}
+
+.outcomes-list h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--fcc-navy);
+}
+
+.outcomes-list p {
+  color: var(--fcc-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ==========================================================================
+   3. Audience Section (There's a place for you here)
+   ========================================================================== */
+.audience-band {
+  background: #ffffff;
+  border-top: 1px solid var(--fcc-line);
+  border-bottom: 1px solid var(--fcc-line);
+  width: 100%;
+}
+
+.audience-section {
+  background: transparent;
+  border: none;
+}
+
+.section-intro {
+  margin-bottom: 3rem;
+}
+
+.section-intro p:not(.kicker) {
+  color: var(--fcc-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+  max-width: 36rem;
+}
+
+.audience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.audience-list li {
+  border-top: 2px solid var(--fcc-line);
+  padding-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.audience-list li > span {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #166534;
+  line-height: 1.2;
+}
+
+.audience-list h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--fcc-navy);
+}
+
+.audience-list p {
+  color: var(--fcc-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ==========================================================================
+   4. Learner Stories & Trustpilot Reviews
+   ========================================================================== */
+.stories-band {
+  background: var(--fcc-cream);
+  width: 100%;
+}
+
+.stories-section {
+  background: transparent;
+}
+
+.reviews-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.learner-review {
+  background: #ffffff;
+  border: 1px solid var(--fcc-line);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 4px 14px rgba(16, 44, 56, 0.04);
+}
+
+.review-kind {
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--fcc-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+blockquote {
+  margin: 0;
+  font-size: 1.15rem;
+  font-style: italic;
+  font-family: Georgia, serif;
+  line-height: 1.5;
+  color: var(--fcc-navy);
+}
+
+.review-takeaway {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--fcc-navy);
+}
+
+.review-author {
+  margin-top: auto;
+  border-top: 1px solid var(--fcc-line);
+  padding-top: 1rem;
+}
+
+.review-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+  color: var(--fcc-navy);
+}
+
+.review-author .text-link {
+  font-size: 0.85rem;
+  color: var(--fcc-muted);
+  text-decoration: none;
+}
+
+.review-author .text-link:hover {
+  text-decoration: underline;
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.review-rating {
+  color: #d97706;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.review-meta time {
+  font-size: 0.82rem;
+  color: var(--fcc-muted);
+}
+
+.review-summary {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--fcc-muted);
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--fcc-line);
+}
+
+.review-note {
+  font-weight: 700;
+  color: var(--fcc-navy);
+  margin-right: 0.35rem;
+}
+
+.review-note::after {
+  content: ":";
+}
+
+.source-note {
+  font-size: 0.85rem;
+  color: var(--fcc-muted);
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   5. Meet Your Mentor (Bhuvana) Section
+   ========================================================================== */
+.mentor-band {
+  background: var(--fcc-navy);
+  color: var(--fcc-cream);
+  width: 100%;
+}
+
+.mentor-section {
+  display: grid;
+  grid-template-columns: minmax(17rem, 22rem) 1fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.mentor-photo {
+  position: relative;
+  width: 100%;
+  max-width: 22rem;
+  aspect-ratio: 2 / 3;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000000;
+  margin: 0;
+}
+
+.mentor-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.mentor-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 40rem;
+}
+
+.mentor-copy .kicker {
+  color: var(--fcc-accent);
+  margin-bottom: 0.75rem;
+}
+
+.mentor-copy h2 {
+  color: var(--fcc-cream);
+  font-size: clamp(2.2rem, 4.2vw, 3.5rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.mentor-copy h2 em {
+  color: var(--fcc-accent);
+}
+
+.mentor-copy p {
+  color: var(--fcc-on-dark);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+.mentor-signature {
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-top: 1.25rem !important;
+  color: var(--fcc-cream) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 1.25rem;
+}
+
+.mentor-signature span {
+  display: block;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.85rem;
+  font-style: normal;
+  color: var(--fcc-on-dark);
+  margin-top: 0.35rem;
+}
+
+.mentor-copy .text-link {
+  color: var(--fcc-accent);
+  margin-top: 1.25rem;
+  align-self: flex-start;
+}
+
+@media (max-width: 820px) {
+  .mentor-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .mentor-photo {
+    max-width: 19rem;
+  }
+
+  .mentor-copy {
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .mentor-copy .text-link {
+    align-self: center;
+  }
+}
+
+/* ==========================================================================
+   6. Registration & Webinar Invitation
+   ========================================================================== */
+.registration-section {
+  background: var(--fcc-cream);
+}
+
+.webinar-invitation {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3.5rem;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--fcc-line);
+  border-radius: 1.75rem;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  box-shadow: 0 8px 30px rgba(16, 44, 56, 0.05);
+}
+
+.webinar-invitation h2 {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.webinar-invitation h2 em {
+  color: #166534;
+}
+
+.webinar-invitation p {
+  color: var(--fcc-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.webinar-details {
+  background: #f8faf9;
+  border: 1px solid var(--fcc-line);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-format {
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  color: #166534;
+  margin: 0 0 0.5rem;
+}
+
+.closing-schedule {
+  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--fcc-navy);
+  margin: 0 0 1rem;
+}
+
+.closing-schedule time {
+  color: var(--fcc-navy);
+}
+
+.webinar-description {
+  color: var(--fcc-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.webinar-bonus {
+  display: inline-block;
+  align-self: flex-start;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 1.5rem;
+}
+
+.registration-cta {
+  align-self: flex-start;
+}
+
+.registration-note {
+  font-size: 0.8rem;
+  color: var(--fcc-muted);
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+
+.event-ended {
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .webinar-invitation {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.75rem;
+  }
+}

@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+* {
+  box-sizing: border-box;
+}
+p {
+  margin: 0;
+}
+a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 5px;
+}
+.community-footer {
+  padding: clamp(2.5rem, 5vw, 4rem) 0 1.25rem;
+  border-top: 1px solid var(--fcc-line);
+  color: var(--fcc-navy);
+  font-size: 0.9rem;
+  text-align: left;
+}
+.footer-main {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: 0 var(--fcc-space) 2.5rem;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 2.5rem;
+}
+.footer-brand {
+  display: inline-block;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  font-weight: 750;
+}
+.footer-brand span {
+  color: #21614d;
+}
+.footer-identity p {
+  color: var(--fcc-muted);
+  margin-top: 1rem;
+}
+.footer-heading {
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.footer-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-group a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  width: fit-content;
+}
+.footer-socials ul {
+  display: grid;
+  gap: 0.15rem;
+}
+.footer-socials a {
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--fcc-navy);
+}
+.footer-phone {
+  font-weight: 650;
+}
+.footer-reviews {
+  margin-top: 0.5rem;
+}
+.footer-bottom {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: 1.25rem var(--fcc-space) 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  border-top: 1px solid var(--fcc-line);
+}
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: var(--fcc-muted);
+}
+.footer-member {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  font-weight: 650;
+}
+.community-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.25rem;
+  }
+  .footer-identity {
+    grid-column: 1 / -1;
+  }
+  .footer-bottom {
+    align-items: start;
+    flex-direction: column-reverse;
+  }
+  .footer-group a {
+    overflow-wrap: anywhere;
+  }
+}
