@@ -7,12 +7,36 @@
         <h1 class="page-title">Courses</h1>
       </div>
 
-      <!-- <div class="header-stats" aria-label="Learning progress summary">
+      <div class="header-stats" aria-label="Learning progress summary">
+        @if (isAdmin()) {
+          <button
+            type="button"
+            class="btn-add-course"
+            (click)="openAddModal()"
+            aria-label="Add a new course"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Course</span>
+          </button>
+        }
         <div class="progress-pill-badge">
           <span class="progress-number">{{ overallProgress() }}%</span>
           <span class="progress-label">Library completed</span>
         </div>
-      </div> -->
+      </div>
     </header>
 
     <!-- Controls Row: Category Filter Pills & Search Input -->
@@ -105,32 +129,71 @@
               </h2>
               <p class="course-desc">{{ course.description }}</p>
 
-              <!-- Progress Bar -->
-              <div class="progress-section" aria-label="Course completion status">
-                <div class="progress-track" role="progressbar" [attr.aria-valuenow]="course.progressPercent" aria-valuemin="0" aria-valuemax="100">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="course.progressPercent"
-                  ></div>
+              @if (!isAdmin()) {
+                <!-- Student Progress Bar -->
+                <div class="progress-section" aria-label="Course completion status">
+                  <div class="progress-track" role="progressbar" [attr.aria-valuenow]="course.progressPercent" aria-valuemin="0" aria-valuemax="100">
+                    <div
+                      class="progress-fill"
+                      [style.width.%]="course.progressPercent"
+                    ></div>
+                  </div>
+                  <div class="progress-text-row">
+                    <span class="pct-text">
+                      {{ course.progressPercent > 0 ? course.progressPercent + '% completed' : 'Not started' }}
+                    </span>
+                    <span class="membership-badge">{{ course.badgeLabel }}</span>
+                  </div>
                 </div>
-                <div class="progress-text-row">
-                  <span class="pct-text">
-                    {{ course.progressPercent > 0 ? course.progressPercent + '% completed' : 'Not started' }}
-                  </span>
-                  <span class="membership-badge">{{ course.badgeLabel }}</span>
-                </div>
-              </div>
 
-              <!-- Card Action Button -->
-              <div class="card-action-row">
-                <a
-                  class="course-btn"
-                  [routerLink]="['/courses', course.id]"
-                >
-                  <span>{{ course.progressPercent > 0 ? 'Continue course' : 'Start course' }}</span>
-                  <span class="arrow-glyph" aria-hidden="true">→</span>
-                </a>
-              </div>
+                <!-- Student Card Action Button -->
+                <div class="card-action-row">
+                  <a
+                    class="course-btn"
+                    [routerLink]="['/courses', course.id]"
+                  >
+                    <span>{{ course.progressPercent > 0 ? 'Continue course' : 'Start course' }}</span>
+                    <span class="arrow-glyph" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              } @else {
+                <!-- Admin Course Meta -->
+                <div class="admin-course-meta" aria-label="Course management status">
+                  <span class="admin-status-badge">
+                    <span class="status-dot-pulse"></span>
+                    Published
+                  </span>
+                  <span class="admin-tier-badge">{{ course.badgeLabel }}</span>
+                </div>
+
+                <!-- Admin Action Row: Primary "Edit Course" Button -->
+                <div class="card-action-row admin-card-action-row">
+                  <a
+                    class="course-btn admin-edit-course-btn"
+                    [routerLink]="['/courses', course.id]"
+                    title="Open full course and curriculum editor"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 20h9"></path>
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <span>Edit Course</span>
+                    <span class="arrow-glyph" aria-hidden="true">→</span>
+                  </a>
+                  <button
+                    type="button"
+                    class="admin-quick-delete-btn"
+                    (click)="deleteCourse(course.id, $event)"
+                    title="Delete course"
+                    [attr.aria-label]="'Delete ' + course.title"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                </div>
+              }
             </div>
           </article>
         } @empty {
@@ -194,4 +257,213 @@
     </footer>
 
   </main>
+
+  <!-- Add / Edit Course Modal for Admin -->
+  @if (showModal() !== 'none') {
+    <div class="modal-backdrop" (click)="closeModal()" role="presentation">
+      <div
+        class="modal-dialog"
+        role="dialog"
+        [attr.aria-label]="showModal() === 'add' ? 'Create new course' : 'Edit course details'"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="modal-header">
+          <div>
+            <span class="modal-kicker">COURSE MANAGEMENT</span>
+            <h2 class="modal-title">
+              {{ showModal() === 'add' ? 'Create New Course' : 'Edit Course Details' }}
+            </h2>
+          </div>
+          <button
+            type="button"
+            class="modal-close-btn"
+            (click)="closeModal()"
+            aria-label="Close dialog"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form (ngSubmit)="saveCourse()" class="modal-form">
+          <div class="form-group">
+            <label for="course-title">Course Title <span class="required">*</span></label>
+            <input
+              id="course-title"
+              type="text"
+              class="form-control"
+              name="title"
+              [(ngModel)]="courseForm.title"
+              placeholder="e.g. Master Public Speaking & Storytelling"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="course-category">Category</label>
+              <select
+                id="course-category"
+                class="form-control"
+                name="category"
+                [(ngModel)]="courseForm.category"
+                (ngModelChange)="onCategoryChange($event)"
+              >
+                <option value="fluency">Fluency & Mindset</option>
+                <option value="expression">Expression</option>
+                <option value="foundations">Foundations</option>
+                <option value="signature">Signature Program</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="course-tag">Tag / Badge Label</label>
+              <input
+                id="course-tag"
+                type="text"
+                class="form-control"
+                name="tag"
+                [(ngModel)]="courseForm.tag"
+                placeholder="e.g. FLUENCY & MINDSET"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="course-desc">Description <span class="required">*</span></label>
+            <textarea
+              id="course-desc"
+              class="form-control"
+              rows="3"
+              name="description"
+              [(ngModel)]="courseForm.description"
+              placeholder="Briefly describe what learners will practice and achieve..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-row three-cols">
+            <div class="form-group">
+              <label for="course-lessons">Lessons Count</label>
+              <input
+                id="course-lessons"
+                type="number"
+                min="1"
+                class="form-control"
+                name="lessonsCount"
+                [(ngModel)]="courseForm.lessonsCount"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="course-duration">Duration Label</label>
+              <input
+                id="course-duration"
+                type="text"
+                class="form-control"
+                name="durationLabel"
+                [(ngModel)]="courseForm.durationLabel"
+                placeholder="e.g. 3h 15m"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="course-level">Skill Level</label>
+              <select
+                id="course-level"
+                class="form-control"
+                name="levelLabel"
+                [(ngModel)]="courseForm.levelLabel"
+              >
+                <option value="All levels">All levels</option>
+                <option value="Foundation">Foundation</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="course-thumb">Thumbnail Image URL</label>
+            <input
+              id="course-thumb"
+              type="text"
+              class="form-control"
+              name="thumbnail"
+              [(ngModel)]="courseForm.thumbnail"
+              placeholder="/assets/communication-practice.jpg"
+            />
+            <div class="thumb-preview-row">
+              <span class="preview-label">Preset images:</span>
+              <button
+                type="button"
+                class="preset-thumb-btn"
+                [class.is-active]="courseForm.thumbnail === '/assets/communication-practice.jpg'"
+                (click)="courseForm.thumbnail = '/assets/communication-practice.jpg'"
+              >
+                Practice
+              </button>
+              <button
+                type="button"
+                class="preset-thumb-btn"
+                [class.is-active]="courseForm.thumbnail === '/assets/community-learning-hero.jpg'"
+                (click)="courseForm.thumbnail = '/assets/community-learning-hero.jpg'"
+              >
+                Community
+              </button>
+              <button
+                type="button"
+                class="preset-thumb-btn"
+                [class.is-active]="courseForm.thumbnail === '/assets/bhuvaneswari-mentor.jpg'"
+                (click)="courseForm.thumbnail = '/assets/bhuvaneswari-mentor.jpg'"
+              >
+                Mentor
+              </button>
+              <button
+                type="button"
+                class="preset-thumb-btn"
+                [class.is-active]="courseForm.thumbnail === '/assets/bhuvaneswari-portrait.jpg'"
+                (click)="courseForm.thumbnail = '/assets/bhuvaneswari-portrait.jpg'"
+              >
+                Portrait
+              </button>
+            </div>
+          </div>
+
+          <div class="form-checkbox-group">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                name="isFeatured"
+                [(ngModel)]="courseForm.isFeatured"
+              />
+              <span>Highlight as Signature Program on the courses page</span>
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" (click)="closeModal()">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn-save"
+              [disabled]="!courseForm.title.trim() || !courseForm.description.trim()"
+            >
+              {{ showModal() === 'add' ? 'Create Course' : 'Save Changes' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Admin Toast Notification -->
+  @if (toastMessage()) {
+    <div class="admin-toast" role="status" (click)="toastMessage.set('')">
+      <span class="toast-icon">✓</span>
+      <span class="toast-text">{{ toastMessage() }}</span>
+      <button type="button" class="toast-close" (click)="toastMessage.set('')" aria-label="Dismiss notification">✕</button>
+    </div>
+  }
 </div>

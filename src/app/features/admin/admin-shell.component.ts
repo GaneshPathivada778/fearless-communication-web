@@ -4,6 +4,7 @@ import { trackById } from "../../core/ui-utils";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { NgFor, NgSwitch, NgSwitchCase } from "@angular/common";
+import { RouterLink } from "@angular/router";
 import { ApiService } from "../../core/api.service";
 @Component({
   standalone: true,
@@ -12,6 +13,7 @@ import { ApiService } from "../../core/api.service";
     NgFor,
     NgSwitch,
     NgSwitchCase,
+    RouterLink,
     CallbackRequestsComponent,
   ],
   template: `<section class="page">
@@ -47,6 +49,15 @@ import { ApiService } from "../../core/api.service";
       </div>
     </div>
     <div class="tabs" role="group" aria-label="Dashboard sections">
+      <button
+        type="button"
+        aria-controls="dashboard-panel"
+        [attr.aria-pressed]="tab === 'courses'"
+        [class.active]="tab === 'courses'"
+        (click)="tab = 'courses'"
+      >
+        Courses
+      </button>
       <button
         type="button"
         aria-controls="dashboard-panel"
@@ -91,6 +102,43 @@ import { ApiService } from "../../core/api.service";
       </button>
     </div>
     <div id="dashboard-panel" [ngSwitch]="tab">
+      <div *ngSwitchCase="'courses'" class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem">
+          <div>
+            <h2>Course Management</h2>
+            <p>Design curricula, organize modules, and upload speaking lesson workouts.</p>
+          </div>
+          <a routerLink="/admin/courses" class="btn primary" style="text-decoration: none">
+            Open Full Course Builder
+          </a>
+        </div>
+        <div class="grid three mini">
+          <div class="card inner">
+            <b>Speak with Confidence</b>
+            <span class="pill" style="margin-left: 0.5rem">Signature Program</span>
+            <p>4 Modules · 20 Lessons · Active</p>
+            <a routerLink="/admin/courses/speak-with-confidence" class="btn small" style="margin-top: 0.75rem; text-decoration: none; display: inline-block">
+              Edit Curriculum
+            </a>
+          </div>
+          <div class="card inner">
+            <b>Think in English</b>
+            <span class="pill" style="margin-left: 0.5rem">Fluency & Mindset</span>
+            <p>1 Module · 3 Lessons · Active</p>
+            <a routerLink="/admin/courses/think-in-english" class="btn small" style="margin-top: 0.75rem; text-decoration: none; display: inline-block">
+              Edit Curriculum
+            </a>
+          </div>
+          <div class="card inner">
+            <b>Stories Worth Telling</b>
+            <span class="pill" style="margin-left: 0.5rem">Expression</span>
+            <p>Draft</p>
+            <a routerLink="/admin/courses/stories-worth-telling" class="btn small" style="margin-top: 0.75rem; text-decoration: none; display: inline-block">
+              Edit Curriculum
+            </a>
+          </div>
+        </div>
+      </div>
       <fcc-callback-requests *ngSwitchCase="'callbacks'" />
       <div
         *ngSwitchCase="'students'"

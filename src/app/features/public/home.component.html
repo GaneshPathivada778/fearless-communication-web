@@ -256,47 +256,158 @@
 >
   <div class="community-section">
     <div class="webinar-invitation">
-      <div>
-        <p class="kicker">GET TO KNOW OUR APPROACH</p>
+      <!-- Left Column: Value Proposition, Host, & Highlights -->
+      <div class="webinar-story">
+        <div class="webinar-kicker-wrap">
+          <span class="webinar-kicker-dot" aria-hidden="true"></span>
+          <p class="kicker">GET TO KNOW OUR APPROACH</p>
+        </div>
+
         <h2 id="register-title">
           Curious about FCC?<br /><em>Meet us at a webinar.</em>
         </h2>
-        <p>
+
+        <p class="webinar-intro">
           Join Bhuvana’s Natural Fluency Webinar for a friendly introduction to
           speaking English with more confidence.
         </p>
+
+        <!-- Value Highlights -->
+        <div class="webinar-takeaways" role="list" aria-label="Webinar Highlights">
+          <div class="takeaway-item" role="listitem">
+            <span class="takeaway-check" aria-hidden="true">✓</span>
+            <div>
+              <strong>Speak with natural flow</strong>
+              <span>Break through hesitation and express your thoughts spontaneously.</span>
+            </div>
+          </div>
+          <div class="takeaway-item" role="listitem">
+            <span class="takeaway-check" aria-hidden="true">✓</span>
+            <div>
+              <strong>Practical conversational models</strong>
+              <span>No overwhelming grammar rules — only simple everyday patterns that stick.</span>
+            </div>
+          </div>
+          <div class="takeaway-item" role="listitem">
+            <span class="takeaway-check" aria-hidden="true">✓</span>
+            <div>
+              <strong>Safe, friendly community circle</strong>
+              <span>Experience how 10,000+ Telugu speakers transformed their spoken confidence.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Host Spotlight Badge -->
+        <div class="webinar-host-badge">
+          <img
+            src="/assets/bhuvaneswari-mentor.jpg"
+            alt="Bhuvaneswari Sistala"
+            class="host-avatar"
+            width="56"
+            height="56"
+            loading="lazy"
+          />
+          <div class="host-meta">
+            <div class="host-name">Bhuvaneswari Sistala</div>
+            <div class="host-role">Founder &amp; Lead Fluency Mentor · FCC</div>
+          </div>
+        </div>
       </div>
-      <div class="webinar-details">
+
+      <!-- Right Column: Interactive Pass / Session Card -->
+      <div class="webinar-details" [class.is-ended]="ended()">
         @if (ended()) {
-          <p class="event-ended" role="status">
-            This session has ended. Explore upcoming webinars with Bhuvana.
-          </p>
+          <div class="ended-status-card">
+            <div class="ended-badge-row">
+              <span class="ended-pill">
+                <span class="ended-pulse" aria-hidden="true"></span>
+                SESSION CONCLUDED
+              </span>
+              <span class="weekly-chip">UPCOMING SESSIONS</span>
+            </div>
+
+            <p class="event-ended" role="status">
+              This session has ended. Explore upcoming webinars with Bhuvana.
+            </p>
+
+            <div class="ended-perks-box">
+              <span class="perks-heading">Every session includes:</span>
+              <ul class="ended-perks-list">
+                <li>
+                  <span class="perk-bullet" aria-hidden="true">✦</span>
+                  <span>90-Minute live Zoom masterclass with interactive exercises</span>
+                </li>
+                <li>
+                  <span class="perk-bullet" aria-hidden="true">✦</span>
+                  <span>Free Fluency Guidebook &amp; vocabulary cheat-sheet</span>
+                </li>
+                <li>
+                  <span class="perk-bullet" aria-hidden="true">✦</span>
+                  <span>Personal Q&amp;A circle directly with Bhuvaneswari</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         } @else {
-          <p class="session-format">FREE · 90 MINUTES · LIVE ON ZOOM</p>
-          <p class="closing-schedule">
-            <time [attr.datetime]="webinar.startsAt">{{ webinar.dateLabel }}</time
-            ><br />{{ webinar.timeLabel }}
-          </p>
-          <p class="webinar-description">
-            Explore everyday English, ways to overcome hesitation, and simple
-            habits to keep practising.
-          </p>
-          <p class="webinar-bonus">Includes a free Fluency Guide worth ₹1,000.</p>
+          <div class="active-session-card">
+            <div class="session-badge-row">
+              <span class="session-format">FREE · 90 MINUTES · LIVE ON ZOOM</span>
+              <span class="live-pill">
+                <span class="live-beacon" aria-hidden="true"></span>
+                LIVE EVENT
+              </span>
+            </div>
+
+            <div class="schedule-callout">
+              <div class="schedule-calendar-icon" aria-hidden="true">
+                <span class="cal-top">IST</span>
+                <span class="cal-icon-body">📅</span>
+              </div>
+              <div class="schedule-copy">
+                <span class="schedule-label">Upcoming Live Schedule</span>
+                <p class="closing-schedule">
+                  <time [attr.datetime]="webinar.startsAt">{{ webinar.dateLabel }}</time
+                  ><br />{{ webinar.timeLabel }}
+                </p>
+              </div>
+            </div>
+
+            <p class="webinar-description">
+              Explore everyday English, ways to overcome hesitation, and simple
+              habits to keep practising.
+            </p>
+
+            <div class="bonus-wrapper">
+              <span class="bonus-sparkle" aria-hidden="true">🎁</span>
+              <p class="webinar-bonus">Includes a free Fluency Guide worth ₹1,000.</p>
+            </div>
+          </div>
         }
-        <a
-          class="community-cta registration-cta"
-          [href]="registrationUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          >{{ registrationLabel }} <span aria-hidden="true">↗</span></a
-        >
-        <p class="registration-note">
-          {{
-            ended()
-              ? "See the learning platform for the next session."
-              : "Register on our learning platform. Reminders arrive by WhatsApp and email."
-          }}
-        </p>
+
+        <!-- CTA Action Area -->
+        <div class="webinar-action-area">
+          <a
+            class="community-cta registration-cta"
+            [href]="registrationUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ registrationLabel }} <span class="cta-arrow" aria-hidden="true">↗</span></a
+          >
+          <p class="registration-note">
+            {{
+              ended()
+                ? "See the learning platform for the next session."
+                : "Register on our learning platform. Reminders arrive by WhatsApp and email."
+            }}
+          </p>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="card-trust-footer">
+          <span class="trust-pill">⚡ Instant Access</span>
+          <span class="trust-pill">🔒 Safe Zoom Room</span>
+          <span class="trust-pill">🎯 Interactive Q&amp;A</span>
+        </div>
       </div>
     </div>
   </div>
