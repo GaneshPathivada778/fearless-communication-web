@@ -26,21 +26,24 @@ describe("CoursesComponent (Figma Learning Library)", () => {
     });
   });
 
-  it("renders page title, category pills, and all course cards", () => {
+  it("renders page title, requested status categories, and all course cards", () => {
     const fixture = TestBed.createComponent(CoursesComponent);
     fixture.detectChanges();
 
     const titleEl = fixture.nativeElement.querySelector(".page-title");
-    expect(titleEl.textContent).toContain("Courses & practice paths");
+    expect(titleEl.textContent).toContain("Courses");
 
-    const kickerEl = fixture.nativeElement.querySelector(".section-kicker");
-    expect(kickerEl.textContent).toContain("YOUR LEARNING LIBRARY");
-
-    // Check category pills (4 pills: All, Fluency, Expression, Foundations)
     const pills = fixture.nativeElement.querySelectorAll(".filter-pill");
-    expect(pills.length).toBe(4);
+    expect(
+      Array.from(pills, (pill: Element) => pill.textContent?.trim()),
+    ).toEqual([
+      "ALL Courses",
+      "In Progress",
+      "Completed",
+      "Expired",
+      "Paid membership",
+    ]);
 
-    // Check course cards (4 initial cards from Figma)
     const cards = fixture.nativeElement.querySelectorAll(".course-card");
     expect(cards.length).toBe(4);
 
@@ -51,27 +54,49 @@ describe("CoursesComponent (Figma Learning Library)", () => {
     expect(guidanceCard.textContent).toContain("Ask your mentor");
   });
 
-  it("filters courses when a category pill is selected", () => {
+  it("filters courses by progress, expiry, and paid membership", () => {
     const fixture = TestBed.createComponent(CoursesComponent);
     const comp = fixture.componentInstance;
     fixture.detectChanges();
 
-    // Select Fluency & Mindset
-    comp.selectCategory("fluency");
+    comp.selectCategory("in-progress");
     fixture.detectChanges();
+    expect(comp.filteredCourses().map((course) => course.title)).toEqual([
+      "Think in English",
+      "Grammar, Naturally",
+      "Speak with Confidence",
+    ]);
 
-    expect(comp.filteredCourses().length).toBe(1);
-    expect(comp.filteredCourses()[0].title).toBe("Think in English");
-
-    // Select Expression
-    comp.selectCategory("expression");
+    comp.courses.update((courses) =>
+      courses.map((course) =>
+        course.id === "think-in-english"
+          ? { ...course, progressPercent: 100 }
+          : course.id === "stories-worth-telling"
+            ? { ...course, isExpired: true }
+            : course,
+      ),
+    );
+    comp.selectCategory("completed");
     fixture.detectChanges();
-    expect(comp.filteredCourses().length).toBe(1);
-    expect(comp.filteredCourses()[0].title).toBe("Stories Worth Telling");
+    expect(comp.filteredCourses().map((course) => course.title)).toEqual([
+      "Think in English",
+    ]);
 
-    // Reset to All
+    comp.selectCategory("expired");
+    fixture.detectChanges();
+    expect(comp.filteredCourses().map((course) => course.title)).toEqual([
+      "Stories Worth Telling",
+    ]);
+
+    comp.selectCategory("paid-membership");
+    fixture.detectChanges();
+    expect(comp.filteredCourses().map((course) => course.title)).toEqual([
+      "Think in English",
+      "Stories Worth Telling",
+      "Grammar, Naturally",
+    ]);
+
     comp.selectCategory("all");
-    fixture.detectChanges();
     expect(comp.filteredCourses().length).toBe(4);
   });
 
@@ -97,7 +122,6 @@ describe("CoursesComponent (Figma Learning Library)", () => {
     fixture.detectChanges();
 
     expect(comp.overallProgress()).toBeGreaterThanOrEqual(0);
-    const progressEl = fixture.nativeElement.querySelector(".progress-number");
-    expect(progressEl.textContent).toContain("%");
+    expect(comp.overallProgress()).toBe(28);
   });
 });

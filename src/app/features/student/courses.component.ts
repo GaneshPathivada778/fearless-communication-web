@@ -16,6 +16,7 @@ export interface Course {
   thumbnail: string;
   progressPercent: number;
   badgeLabel: string;
+  isExpired?: boolean;
   isFeatured?: boolean;
 }
 
@@ -94,21 +95,30 @@ export class CoursesComponent {
   readonly searchQuery = signal<string>("");
 
   readonly categories = [
-    { id: "all", label: "All courses" },
-    { id: "fluency", label: "Fluency & Mindset" },
-    { id: "expression", label: "Expression" },
-    { id: "foundations", label: "Foundations" },
+    { id: "all", label: "All Courses" },
+    { id: "in-progress", label: "In Progress" },
+    { id: "completed", label: "Completed" },
+    { id: "expired", label: "Expired" },
+    { id: "paid-membership", label: "Paid membership" },
   ];
 
   /**
-   * Filtered courses based on category pill and search input
+   * Filtered courses based on status, membership, and search input
    */
   readonly filteredCourses = computed(() => {
     const cat = this.selectedCategory();
     const query = this.searchQuery().trim().toLowerCase();
 
     return this.courses().filter((course) => {
-      const matchesCat = cat === "all" || course.category === cat;
+      const matchesCat =
+        cat === "all" ||
+        (cat === "in-progress" &&
+          course.progressPercent > 0 &&
+          course.progressPercent < 100) ||
+        (cat === "completed" && course.progressPercent >= 100) ||
+        (cat === "expired" && course.isExpired === true) ||
+        (cat === "paid-membership" &&
+          course.badgeLabel.toLowerCase().includes("membership"));
       const matchesQuery =
         !query ||
         course.title.toLowerCase().includes(query) ||

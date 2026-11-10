@@ -4,19 +4,15 @@
     <!-- Top Header Section (Matching Figma Editorial Vibe) -->
     <header class="courses-header">
       <div class="header-text">
-        <p class="section-kicker">YOUR LEARNING LIBRARY</p>
-        <h1 class="page-title">Courses & practice paths</h1>
-        <p class="page-subtitle">
-          Curated modules to practice speaking, storytelling, and fluency at your own pace.
-        </p>
+        <h1 class="page-title">Courses</h1>
       </div>
 
-      <div class="header-stats" aria-label="Learning progress summary">
+      <!-- <div class="header-stats" aria-label="Learning progress summary">
         <div class="progress-pill-badge">
           <span class="progress-number">{{ overallProgress() }}%</span>
           <span class="progress-label">Library completed</span>
         </div>
-      </div>
+      </div> -->
     </header>
 
     <!-- Controls Row: Category Filter Pills & Search Input -->
@@ -54,7 +50,7 @@
         <input
           type="search"
           class="search-input"
-          placeholder="Search by topic, keyword..."
+          placeholder="Search by Course..."
           [ngModel]="searchQuery()"
           (ngModelChange)="searchQuery.set($event)"
           aria-label="Search courses"
