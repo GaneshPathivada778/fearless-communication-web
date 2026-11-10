@@ -100,4 +100,99 @@ describe("CoursesComponent (Figma Learning Library)", () => {
     const progressEl = fixture.nativeElement.querySelector(".progress-number");
     expect(progressEl.textContent).toContain("%");
   });
+
+  it("shows Start / Continue course buttons and progress bar when user is a Student", () => {
+    const fixture = TestBed.createComponent(CoursesComponent);
+    fixture.detectChanges();
+
+    const addBtn = fixture.nativeElement.querySelector(".btn-add-course");
+    expect(addBtn).toBeNull();
+
+    const adminEditBtns = fixture.nativeElement.querySelectorAll(".admin-edit-course-btn");
+    expect(adminEditBtns.length).toBe(0);
+
+    const progressTracks = fixture.nativeElement.querySelectorAll(".progress-track");
+    expect(progressTracks.length).toBeGreaterThan(0);
+
+    const courseBtns = fixture.nativeElement.querySelectorAll(".course-btn");
+    expect(courseBtns.length).toBeGreaterThan(0);
+    const firstBtnText = courseBtns[0].textContent;
+    expect(firstBtnText.includes("Start course") || firstBtnText.includes("Continue course")).toBe(true);
+  });
+});
+
+describe("CoursesComponent (Admin Mode)", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    TestBed.configureTestingModule({
+      imports: [CoursesComponent],
+      providers: [
+        provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: {
+            user: signal({
+              id: "admin-1",
+              name: "Academy Admin",
+              email: "admin@test.com",
+              role: "Admin",
+            }),
+          },
+        },
+      ],
+    });
+  });
+
+  it("renders Add Course button and Edit Course buttons when user is Admin", () => {
+    const fixture = TestBed.createComponent(CoursesComponent);
+    fixture.detectChanges();
+
+    const addBtn = fixture.nativeElement.querySelector(".btn-add-course");
+    expect(addBtn).toBeTruthy();
+    expect(addBtn.textContent).toContain("Add Course");
+
+    // Admin cards have primary "Edit Course" button
+    const adminEditBtns = fixture.nativeElement.querySelectorAll(".admin-edit-course-btn");
+    expect(adminEditBtns.length).toBeGreaterThan(0);
+    expect(adminEditBtns[0].textContent).toContain("Edit Course");
+
+    // Student progress track is not rendered in Admin mode
+    const progressTracks = fixture.nativeElement.querySelectorAll(".progress-track");
+    expect(progressTracks.length).toBe(0);
+  });
+
+  it("allows Admin to add a new course", () => {
+    const fixture = TestBed.createComponent(CoursesComponent);
+    const comp = fixture.componentInstance;
+    fixture.detectChanges();
+
+    comp.openAddModal();
+    expect(comp.showModal()).toBe("add");
+
+    comp.courseForm.title = "Master Business Presentations";
+    comp.courseForm.description = "Pitch with confidence and poise.";
+    comp.courseForm.category = "signature";
+
+    comp.saveCourse();
+
+    expect(comp.showModal()).toBe("none");
+    expect(comp.courses().some((c) => c.title === "Master Business Presentations")).toBe(true);
+  });
+
+  it("allows Admin to edit an existing course", () => {
+    const fixture = TestBed.createComponent(CoursesComponent);
+    const comp = fixture.componentInstance;
+    fixture.detectChanges();
+
+    const initial = comp.courses()[0];
+    comp.openEditModal(initial);
+    expect(comp.showModal()).toBe("edit");
+    expect(comp.courseForm.title).toBe(initial.title);
+
+    comp.courseForm.title = "Updated Course Title";
+    comp.saveCourse();
+
+    expect(comp.showModal()).toBe("none");
+    expect(comp.courses().some((c) => c.title === "Updated Course Title")).toBe(true);
+  });
 });

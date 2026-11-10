@@ -1,0 +1,907 @@
+<div class="admin-layout">
+  <!-- 1. LEFT ADMIN SIDEBAR -->
+  <aside class="admin-sidebar" aria-label="Admin Navigation">
+    <div class="sidebar-brand">
+      <a routerLink="/admin" class="brand-link" aria-label="Admin Center Home">
+        <span class="brand-circle">fcc<span>.</span></span>
+        <div class="brand-info">
+          <span class="brand-title">FearlessCommunication</span>
+          <span class="brand-sub">ADMIN CONTROL</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Admin Sections">
+      <div class="nav-group-label">MANAGEMENT</div>
+
+      <a routerLink="/admin" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+
+      <a routerLink="/admin/courses" class="nav-item active" aria-current="page">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Courses</span>
+        <span class="nav-badge">4</span>
+      </a>
+
+      <a routerLink="/live-classes" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"></polygon>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+        </svg>
+        <span>Live Classes</span>
+      </a>
+
+      <a routerLink="/admin" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Students</span>
+      </a>
+
+      <a routerLink="/memberships" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+        </svg>
+        <span>Memberships</span>
+      </a>
+
+      <a routerLink="/community" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Community</span>
+      </a>
+
+      <div class="nav-group-label" style="margin-top: 1.5rem">WORKSPACE</div>
+
+      <a routerLink="/courses" [queryParams]="{ view: 'student' }" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+        </svg>
+        <span>Student View</span>
+      </a>
+
+      <a routerLink="/profile" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <img
+        [src]="currentCourse().mentorAvatar"
+        [alt]="currentCourse().mentorName"
+        class="user-avatar"
+      />
+      <div class="user-details">
+        <span class="user-name">{{ currentCourse().mentorName }}</span>
+        <span class="user-role">Administrator</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN ADMIN CONTENT -->
+  <main class="admin-main">
+    <!-- Top Action & Breadcrumb Bar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <nav class="breadcrumb-trail" aria-label="Breadcrumbs">
+          <a routerLink="/admin" class="crumb-link">Admin</a>
+          <span class="crumb-separator">/</span>
+          <span class="crumb-link">Courses</span>
+          <span class="crumb-separator">/</span>
+          <span class="crumb-current">{{ currentCourse().title }}</span>
+        </nav>
+        <span class="status-indicator-pill" [class.draft]="currentCourse().status === 'draft'">
+          <span class="status-dot"></span>
+          {{ currentCourse().status === 'published' ? 'Published' : 'Draft' }}
+        </span>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="course-switcher">
+          <label for="courseSelect" class="sr-only">Select Course</label>
+          <select
+            id="courseSelect"
+            [ngModel]="selectedCourseId()"
+            (ngModelChange)="switchCourse($event)"
+            class="course-select-dropdown"
+          >
+            @for (c of courses(); track c.id) {
+              <option [value]="c.id">{{ c.title }}</option>
+            }
+          </select>
+        </div>
+
+        <a
+          [routerLink]="['/courses', currentCourse().id]"
+          target="_blank"
+          class="btn-secondary"
+          title="Open preview in student player"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>Preview as Student</span>
+        </a>
+
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="saveAndPublishCourse()"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Publish Course</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Course Hero / Overview Banner -->
+    <section class="course-hero-card">
+      <div class="hero-content">
+        <div class="hero-badge-row">
+          <span class="kicker-pill">{{ currentCourse().badgeLabel }}</span>
+          <span class="level-pill">{{ currentCourse().level }}</span>
+        </div>
+        <h1 class="hero-title">{{ currentCourse().title }}</h1>
+        <p class="hero-tagline">{{ currentCourse().tagline }}</p>
+
+        <div class="hero-stats-row">
+          <div class="stat-item">
+            <span class="stat-number">{{ totalModulesCount }}</span>
+            <span class="stat-label">Modules</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">{{ totalLessonsCount }}</span>
+            <span class="stat-label">Lessons</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">{{ currentCourse().studentsEnrolled }}</span>
+            <span class="stat-label">Active Students</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">{{ currentCourse().avgCompletionRate }}%</span>
+            <span class="stat-label">Avg. Completion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-thumbnail-box">
+        <img
+          [src]="currentCourse().thumbnail"
+          [alt]="currentCourse().title"
+          class="hero-thumb-img"
+        />
+        <div class="thumb-overlay">
+          <span>Mentor: {{ currentCourse().mentorName }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <div class="course-tabs-bar" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'curriculum'"
+        [attr.aria-selected]="activeTab() === 'curriculum'"
+        (click)="activeTab.set('curriculum')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        <span>Curriculum Builder</span>
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'settings'"
+        [attr.aria-selected]="activeTab() === 'settings'"
+        (click)="activeTab.set('settings')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Course Settings</span>
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'pricing'"
+        [attr.aria-selected]="activeTab() === 'pricing'"
+        (click)="activeTab.set('pricing')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span>Pricing & Access</span>
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'students'"
+        [attr.aria-selected]="activeTab() === 'students'"
+        (click)="activeTab.set('students')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Student Progress ({{ currentCourse().studentsEnrolled }})</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: CURRICULUM BUILDER -->
+    @if (activeTab() === 'curriculum') {
+      <div class="curriculum-container">
+        <!-- LEFT: Modules & Lessons Hierarchy Tree -->
+        <div class="curriculum-tree-column">
+          <div class="tree-toolbar">
+            <div class="tree-heading-wrap">
+              <h2 class="tree-heading">Course Structure</h2>
+              <span class="tree-sub">{{ totalModulesCount }} Modules · {{ totalLessonsCount }} Lessons</span>
+            </div>
+            <button
+              type="button"
+              class="btn-add-module"
+              (click)="openAddModuleModal()"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add Module</span>
+            </button>
+          </div>
+
+          <!-- Modules List -->
+          <div class="modules-accordion">
+            @for (mod of currentCourse().modules; track mod.id) {
+              <div class="module-block" [class.expanded]="mod.expanded">
+                <!-- Module Header Card -->
+                <div class="module-card-header" (click)="toggleModule(mod.id)">
+                  <div class="mod-header-left">
+                    <span class="drag-handle" title="Drag to reorder module" (click)="$event.stopPropagation()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="5" r="1"></circle>
+                        <circle cx="9" cy="12" r="1"></circle>
+                        <circle cx="9" cy="19" r="1"></circle>
+                        <circle cx="15" cy="5" r="1"></circle>
+                        <circle cx="15" cy="12" r="1"></circle>
+                        <circle cx="15" cy="19" r="1"></circle>
+                      </svg>
+                    </span>
+
+                    <span class="mod-index-pill">Module {{ mod.moduleNumber }}</span>
+                    <div class="mod-title-group">
+                      <span class="mod-title">{{ mod.title }}</span>
+                      <span class="mod-summary">{{ mod.lessons.length }} lessons · Published</span>
+                    </div>
+                  </div>
+
+                  <div class="mod-header-right" (click)="$event.stopPropagation()">
+                    <button
+                      type="button"
+                      class="btn-icon-subtle"
+                      title="Add Lesson to this module"
+                      (click)="addLessonToModule(mod.id)"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                      <span>Add Lesson</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn-icon-subtle danger"
+                      title="Delete module"
+                      (click)="deleteModule(mod.id)"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+
+                    <span class="accordion-arrow" [class.rotated]="mod.expanded">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Lessons List within Module -->
+                @if (mod.expanded) {
+                  <div class="lessons-container">
+                    @if (mod.lessons.length === 0) {
+                      <div class="empty-lessons-state">
+                        <p>No lessons added to this module yet.</p>
+                        <button
+                          type="button"
+                          class="btn-add-first-lesson"
+                          (click)="addLessonToModule(mod.id)"
+                        >
+                          + Add First Lesson
+                        </button>
+                      </div>
+                    }
+
+                    @for (lesson of mod.lessons; track lesson.id) {
+                      <div
+                        class="lesson-item-row"
+                        [class.selected]="selectedLessonId() === lesson.id && selectedModuleId() === mod.id"
+                        (click)="selectLesson(mod.id, lesson)"
+                      >
+                        <div class="lesson-left">
+                          <span class="lesson-drag" title="Drag to reorder lesson">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <circle cx="9" cy="5" r="1"></circle>
+                              <circle cx="9" cy="12" r="1"></circle>
+                              <circle cx="9" cy="19" r="1"></circle>
+                              <circle cx="15" cy="5" r="1"></circle>
+                              <circle cx="15" cy="12" r="1"></circle>
+                              <circle cx="15" cy="19" r="1"></circle>
+                            </svg>
+                          </span>
+
+                          <span class="lesson-num-badge">{{ lesson.numberLabel }}</span>
+
+                          <div class="lesson-info">
+                            <span class="lesson-title">{{ lesson.title }}</span>
+                            <div class="lesson-meta-chips">
+                              <span class="chip-duration">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                {{ lesson.duration }}
+                              </span>
+
+                              @if (lesson.isFreePreview) {
+                                <span class="chip-preview">Free Preview</span>
+                              }
+
+                              @if (lesson.hasResources) {
+                                <span class="chip-resource">Worksheet attached</span>
+                              }
+
+                              <span
+                                class="chip-status"
+                                [class.published]="lesson.status === 'published'"
+                                [class.draft]="lesson.status === 'draft'"
+                              >
+                                {{ lesson.status }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="lesson-right" (click)="$event.stopPropagation()">
+                          <button
+                            type="button"
+                            class="btn-edit-badge"
+                            (click)="selectLesson(mod.id, lesson)"
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- Quick Add Lesson Button at Bottom of Module -->
+                    <button
+                      type="button"
+                      class="btn-module-quick-add"
+                      (click)="addLessonToModule(mod.id)"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                      <span>Add lesson to Module {{ mod.moduleNumber }}</span>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Big Dashed Add Module Button -->
+            <button
+              type="button"
+              class="btn-dashed-add-module"
+              (click)="openAddModuleModal()"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span>+ Add New Curriculum Module</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: STICKY LESSON INSPECTOR / EDITOR DRAWER -->
+        @if (isDrawerOpen()) {
+          <aside class="lesson-drawer" aria-label="Lesson Editor">
+            <div class="drawer-header">
+              <div class="drawer-header-left">
+                <span class="drawer-kicker">LESSON EDITOR</span>
+                <h3 class="drawer-title">Lesson {{ activeLessonDraft().numberLabel }}</h3>
+              </div>
+
+              <div class="drawer-header-right">
+                <button
+                  type="button"
+                  class="status-toggle-pill"
+                  [class.published]="activeLessonDraft().status === 'published'"
+                  [class.draft]="activeLessonDraft().status === 'draft'"
+                  (click)="toggleLessonStatus()"
+                  title="Click to toggle published / draft state"
+                >
+                  <span class="status-dot"></span>
+                  {{ activeLessonDraft().status === 'published' ? 'Published' : 'Draft' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Video Player Preview Box -->
+            <div class="drawer-preview-card">
+              <div class="video-preview-wrapper">
+                <video
+                  [src]="activeLessonDraft().videoUrl"
+                  controls
+                  class="preview-video-element"
+                  poster="/assets/bhuvaneswari-portrait.jpg"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="video-preview-meta">
+                <span class="preview-tag">Preview Asset</span>
+                <span class="preview-url">{{ activeLessonDraft().videoUrl }}</span>
+              </div>
+            </div>
+
+            <!-- Form Fields -->
+            <form class="drawer-form" (ngSubmit)="saveLessonDraft()">
+              <!-- Title -->
+              <div class="form-group">
+                <label for="lessonTitleInput" class="form-label">Lesson Title</label>
+                <input
+                  id="lessonTitleInput"
+                  name="lessonTitle"
+                  type="text"
+                  [(ngModel)]="activeLessonDraft().title"
+                  class="form-control"
+                  placeholder="e.g. Daily Practice Speaking Like This!"
+                  required
+                />
+              </div>
+
+              <!-- Module Assignment -->
+              <div class="form-group">
+                <label for="moduleAssignSelect" class="form-label">Module Assignment</label>
+                <select
+                  id="moduleAssignSelect"
+                  name="moduleAssign"
+                  [ngModel]="selectedModuleId()"
+                  (ngModelChange)="selectedModuleId.set($event)"
+                  class="form-control"
+                >
+                  @for (m of currentCourse().modules; track m.id) {
+                    <option [value]="m.id">Module {{ m.moduleNumber }}: {{ m.title }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Two Column Row: Duration & Access Tier -->
+              <div class="form-row two-cols">
+                <div class="form-group">
+                  <label for="durationInput" class="form-label">Duration</label>
+                  <input
+                    id="durationInput"
+                    name="duration"
+                    type="text"
+                    [(ngModel)]="activeLessonDraft().duration"
+                    class="form-control"
+                    placeholder="e.g. 05:52"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="accessTierSelect" class="form-label">Access Level</label>
+                  <select
+                    id="accessTierSelect"
+                    name="accessTier"
+                    [(ngModel)]="activeLessonDraft().accessTier"
+                    class="form-control"
+                  >
+                    <option value="all">Included in Membership</option>
+                    <option value="free">Free for Everyone</option>
+                    <option value="diamond">Diamond VIP Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Video Key / Media URL -->
+              <div class="form-group">
+                <label for="videoUrlInput" class="form-label">Video Media Key / URL</label>
+                <input
+                  id="videoUrlInput"
+                  name="videoUrl"
+                  type="text"
+                  [(ngModel)]="activeLessonDraft().videoUrl"
+                  class="form-control code-font"
+                  placeholder="/assets/daily-practice-speaking.mp4"
+                />
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="descriptionInput" class="form-label">Lesson Description & Exercises</label>
+                <textarea
+                  id="descriptionInput"
+                  name="description"
+                  rows="3"
+                  [(ngModel)]="activeLessonDraft().description"
+                  class="form-control"
+                  placeholder="Detail what students learn in this practice session..."
+                ></textarea>
+              </div>
+
+              <!-- Mentor Quote / Key Takeaway -->
+              <div class="form-group">
+                <label for="quoteInput" class="form-label">Mentor Key Takeaway / Quote</label>
+                <input
+                  id="quoteInput"
+                  name="quote"
+                  type="text"
+                  [(ngModel)]="activeLessonDraft().quote"
+                  class="form-control"
+                  placeholder="e.g. A little practice. A little courage. Every day."
+                />
+              </div>
+
+              <!-- Toggles Row -->
+              <div class="toggles-card">
+                <div class="toggle-row">
+                  <div class="toggle-text">
+                    <span class="toggle-title">Free Preview Lesson</span>
+                    <span class="toggle-sub">Allow prospective students to preview this lesson</span>
+                  </div>
+                  <label class="switch-control">
+                    <input
+                      type="checkbox"
+                      name="isFreePreview"
+                      [(ngModel)]="activeLessonDraft().isFreePreview"
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <div class="toggle-text">
+                    <span class="toggle-title">Practice Worksheet</span>
+                    <span class="toggle-sub">Attach downloadable exercises & dialogue prompts</span>
+                  </div>
+                  <label class="switch-control">
+                    <input
+                      type="checkbox"
+                      name="hasResources"
+                      [(ngModel)]="activeLessonDraft().hasResources"
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <div class="toggle-text">
+                    <span class="toggle-title">Student Discussion</span>
+                    <span class="toggle-sub">Enable comments, audio shares, and feedback thread</span>
+                  </div>
+                  <label class="switch-control">
+                    <input
+                      type="checkbox"
+                      name="discussionsEnabled"
+                      [(ngModel)]="activeLessonDraft().discussionsEnabled"
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="drawer-actions">
+                <button
+                  type="button"
+                  class="btn-danger-outline"
+                  (click)="deleteCurrentLesson()"
+                  title="Remove this lesson"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>Delete</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-outline"
+                  (click)="duplicateCurrentLesson()"
+                  title="Duplicate lesson"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Duplicate</span>
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn-save-drawer"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Save Changes</span>
+                </button>
+              </div>
+            </form>
+          </aside>
+        }
+      </div>
+    }
+
+    <!-- TAB 2: COURSE SETTINGS -->
+    @if (activeTab() === 'settings') {
+      <div class="settings-tab-panel">
+        <div class="panel-card">
+          <h2 class="panel-title">General Course Details</h2>
+          <p class="panel-desc">Update the core program metadata, mentor attribution, and library visibility.</p>
+
+          <div class="form-group">
+            <label class="form-label">Course Title</label>
+            <input
+              type="text"
+              [(ngModel)]="currentCourse().title"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tagline</label>
+            <input
+              type="text"
+              [(ngModel)]="currentCourse().tagline"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-row two-cols">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select [(ngModel)]="currentCourse().category" class="form-control">
+                <option value="signature">Signature Program</option>
+                <option value="fluency">Fluency & Mindset</option>
+                <option value="expression">Expression & Stories</option>
+                <option value="foundations">Foundations & Grammar</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Level</label>
+              <input
+                type="text"
+                [(ngModel)]="currentCourse().level"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Full Course Description</label>
+            <textarea
+              rows="4"
+              [(ngModel)]="currentCourse().description"
+              class="form-control"
+            ></textarea>
+          </div>
+
+          <div class="form-row two-cols">
+            <div class="form-group">
+              <label class="form-label">Lead Mentor Name</label>
+              <input
+                type="text"
+                [(ngModel)]="currentCourse().mentorName"
+                class="form-control"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Mentor Role</label>
+              <input
+                type="text"
+                [(ngModel)]="currentCourse().mentorRole"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="btn-primary"
+            style="margin-top: 1.5rem"
+            (click)="saveAndPublishCourse()"
+          >
+            Save Course Settings
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- TAB 3: PRICING & ACCESS -->
+    @if (activeTab() === 'pricing') {
+      <div class="settings-tab-panel">
+        <div class="panel-card">
+          <h2 class="panel-title">Membership Access & Pricing Rules</h2>
+          <p class="panel-desc">Define which membership tiers can access this course library.</p>
+
+          <div class="tier-access-grid">
+            <div class="tier-card active">
+              <span class="tier-badge">Silver Tier</span>
+              <h4>Included</h4>
+              <p>All Silver members have full streaming access to all 4 modules.</p>
+            </div>
+
+            <div class="tier-card active">
+              <span class="tier-badge">Gold Tier</span>
+              <h4>Included + Live Practice</h4>
+              <p>Gold members get all lessons plus live weekly circle feedback.</p>
+            </div>
+
+            <div class="tier-card active">
+              <span class="tier-badge">Diamond VIP</span>
+              <h4>VIP 1-on-1 Reviews</h4>
+              <p>Includes speech recordings evaluation and mentor notes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- TAB 4: STUDENT PROGRESS -->
+    @if (activeTab() === 'students') {
+      <div class="settings-tab-panel">
+        <div class="panel-card">
+          <h2 class="panel-title">Student Engagement & Analytics</h2>
+          <p class="panel-desc">Real-time metrics for {{ currentCourse().title }}.</p>
+
+          <div class="analytics-metrics-grid">
+            <div class="metric-card">
+              <span class="metric-val">1,280</span>
+              <span class="metric-lbl">Total Enrolled</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">94%</span>
+              <span class="metric-lbl">Completion Rate</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">4.9 / 5</span>
+              <span class="metric-lbl">Average Rating</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val">8,420h</span>
+              <span class="metric-lbl">Total Watch Hours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>
+
+<!-- ADD MODULE MODAL -->
+@if (isAddModuleModalOpen()) {
+  <div class="modal-backdrop" (click)="isAddModuleModalOpen.set(false)">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Add New Module</h3>
+        <button
+          type="button"
+          class="modal-close"
+          (click)="isAddModuleModalOpen.set(false)"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Module Title</label>
+          <input
+            type="text"
+            [(ngModel)]="newModuleTitle"
+            placeholder="e.g. Master High-Stakes Presentations"
+            class="form-control"
+            autofocus
+          />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="isAddModuleModalOpen.set(false)"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn-primary"
+          [disabled]="!newModuleTitle.trim()"
+          (click)="submitAddModule()"
+        >
+          Create Module
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- TOAST NOTIFICATION -->
+@if (toastMessage()) {
+  <div class="toast-popup" role="status">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <span>{{ toastMessage() }}</span>
+  </div>
+}
+

@@ -44,10 +44,10 @@ import { AuthService } from "./core/auth.service";
           routerLink="/dashboard"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Discover</a
+          >Dashboard</a
         >
         <a routerLink="/courses" routerLinkActive="active">Courses</a>
-        <a routerLink="/live-classes" routerLinkActive="active">Live Classes</a>
+        <a routerLink="/live-classes" routerLinkActive="active">Live</a>
         <!-- <a routerLink="/events" routerLinkActive="active">Events</a> -->
         <a routerLink="/community" routerLinkActive="active">Community</a>
         <a routerLink="/messages" routerLinkActive="active">Chat</a>
@@ -297,7 +297,10 @@ export class AppComponent implements OnDestroy {
     return this.router.url.split(/[?#]/)[0] === "/";
   }
   get isStandalonePublicPage() {
-    return ["/", "/contact"].includes(this.router.url.split(/[?#]/)[0]);
+    const path = this.router.url.split(/[?#]/)[0];
+    return (
+      ["/", "/contact"].includes(path) || path.startsWith("/admin/courses")
+    );
   }
   @ViewChild("mainContent") mainContent?: ElementRef<HTMLElement>;
   @ViewChild("profileMenuContainer")

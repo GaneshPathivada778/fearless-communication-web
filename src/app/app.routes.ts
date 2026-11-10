@@ -1,6 +1,8 @@
 import { Routes } from "@angular/router";
 import {
+  adminCourseMatchGuard,
   authGuard,
+  coursesPageGuard,
   memberPageGuard,
   roleGuard,
   studentDashboardGuard,
@@ -41,10 +43,19 @@ export const routes: Routes = [
   {
     path: "courses",
     title: "Courses & Learning Library | Fearless Communication Club",
-    canActivate: [authGuard],
+    canActivate: [authGuard, coursesPageGuard],
     loadComponent: () =>
       import("./features/student/courses.component").then(
         (m) => m.CoursesComponent,
+      ),
+  },
+  {
+    path: "courses/:id",
+    title: "Edit Course Curriculum | FCC Admin",
+    canMatch: [adminCourseMatchGuard],
+    loadComponent: () =>
+      import("./features/admin/admin-course.component").then(
+        (m) => m.AdminCourseComponent,
       ),
   },
   {
@@ -129,6 +140,24 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./features/admin/admin-shell.component").then(
         (m) => m.AdminShellComponent,
+      ),
+  },
+  {
+    path: "admin/courses",
+    title: "Course Management | FCC Admin",
+    canActivate: [authGuard, roleGuard(["Admin"])],
+    loadComponent: () =>
+      import("./features/admin/admin-course.component").then(
+        (m) => m.AdminCourseComponent,
+      ),
+  },
+  {
+    path: "admin/courses/:id",
+    title: "Edit Course | FCC Admin",
+    canActivate: [authGuard, roleGuard(["Admin"])],
+    loadComponent: () =>
+      import("./features/admin/admin-course.component").then(
+        (m) => m.AdminCourseComponent,
       ),
   },
   {
