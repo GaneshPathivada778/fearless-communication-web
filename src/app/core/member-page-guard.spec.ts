@@ -8,7 +8,13 @@ import {
   provideRouter,
 } from "@angular/router";
 import { AuthService } from "./auth.service";
-import { memberPageGuard } from "./guards";
+import {
+  authGuard,
+  DEV_AUTH_BYPASS,
+  memberPageGuard,
+  roleGuard,
+  studentDashboardGuard,
+} from "./guards";
 import { routes } from "../app.routes";
 
 describe("Retired public pages", () => {
@@ -22,6 +28,7 @@ describe("Retired public pages", () => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
+        { provide: DEV_AUTH_BYPASS, useValue: false },
         { provide: AuthService, useValue: { user: () => user } },
       ],
     });
@@ -54,5 +61,25 @@ describe("Retired public pages", () => {
         routes.find((route) => route.path === path)?.canActivate?.length,
       ).toBeGreaterThan(0);
     }
+  });
+  it("allows guarded routes without a session in development mode", () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        { provide: DEV_AUTH_BYPASS, useValue: true },
+        { provide: AuthService, useValue: { user: () => null } },
+      ],
+    });
+    const result = TestBed.runInInjectionContext(() => {
+      const state = {} as RouterStateSnapshot;
+      const route = {} as ActivatedRouteSnapshot;
+      return [
+        authGuard(route, state),
+        roleGuard(["Admin"])(route, state),
+        studentDashboardGuard(route, state),
+        memberPageGuard(route, state),
+      ];
+    });
+    expect(result).toEqual([true, true, true, true]);
   });
 });

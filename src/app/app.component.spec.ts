@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TestBed } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
-import { AuthService } from "./core/auth.service";
+import { AuthService } from "../core/auth.service";
 import { provideRouter, Router } from "@angular/router";
 import { Component, signal } from "@angular/core";
 

@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 
 export interface AdminLesson {
   id: string;
@@ -433,7 +433,7 @@ export const INITIAL_ADMIN_COURSES: AdminCourseDetail[] = [
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: "./admin-course.component.html",
-  styleUrls: ["./admin-course.component.css"],
+  styleUrls: ["./admin-course.component.scss"],
 })
 export class AdminCourseComponent {
   private readonly route = inject(ActivatedRoute);

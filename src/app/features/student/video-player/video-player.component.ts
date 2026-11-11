@@ -19,8 +19,8 @@ import {
   of,
   switchMap,
 } from "rxjs";
-import { ApiService } from "../../core/api.service";
-import { percent } from "../../core/ui-utils";
+import { ApiService } from "../../../core/api.service";
+import { percent } from "../../../core/ui-utils";
 interface ProgressSave {
   id: string;
   positionSeconds: number;

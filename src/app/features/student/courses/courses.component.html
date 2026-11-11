@@ -8,7 +8,7 @@
       </div>
 
       <div class="header-stats" aria-label="Learning progress summary">
-        @if (isAdmin()) {
+        <!-- @if (isAdmin()) { -->
           <button
             type="button"
             class="btn-add-course"
@@ -31,11 +31,7 @@
             </svg>
             <span>Add Course</span>
           </button>
-        }
-        <div class="progress-pill-badge">
-          <span class="progress-number">{{ overallProgress() }}%</span>
-          <span class="progress-label">Library completed</span>
-        </div>
+        <!-- } -->
       </div>
     </header>
 

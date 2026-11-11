@@ -1,11 +1,11 @@
-import { CallbackRequestsComponent } from "./callback-requests.component";
+import { CallbackRequestsComponent } from "../callback-requests/callback-requests.component";
 import { forkJoin, finalize } from "rxjs";
-import { trackById } from "../../core/ui-utils";
+import { trackById } from "../../../core/ui-utils";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { NgFor, NgSwitch, NgSwitchCase } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { ApiService } from "../../core/api.service";
+import { ApiService } from "../../../core/api.service";
 @Component({
   standalone: true,
   imports: [

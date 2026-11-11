@@ -9,7 +9,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 
 export interface Lesson {
   id: string;
@@ -56,7 +56,7 @@ export interface PracticeResource {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: "./course-player.component.html",
-  styleUrls: ["./course-player.component.css"],
+  styleUrls: ["./course-player.component.scss"],
 })
 export class CoursePlayerComponent {
   @ViewChild("videoPlayer") videoPlayer?: ElementRef<HTMLVideoElement>;

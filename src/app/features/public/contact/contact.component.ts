@@ -1,8 +1,8 @@
 import { Component, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
-import { CallbackRequestComponent } from "./callback-request.component";
-import { CommunityFooterComponent } from "./community-footer.component";
+import { AuthService } from "../../../core/auth.service";
+import { CallbackRequestComponent } from "../callback-request/callback-request.component";
+import { CommunityFooterComponent } from "../community-footer/community-footer.component";
 
 @Component({
   standalone: true,
@@ -38,7 +38,7 @@ import { CommunityFooterComponent } from "./community-footer.component";
     <fcc-callback-request />
     <fcc-community-footer />
   `,
-  styleUrls: ["./community-theme.css", "./contact.component.css"],
+  styleUrls: ["../styles/community-theme.scss", "./contact.component.scss"],
 })
 export class ContactComponent {
   readonly auth = inject(AuthService);

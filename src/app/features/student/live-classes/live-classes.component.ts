@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 
 export interface CalendarDay {
   dateNumber: number;
@@ -158,7 +158,7 @@ const FIGMA_CLASSES: LiveClass[] = [
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: "./live-classes.component.html",
-  styleUrls: ["./live-classes.component.css"],
+  styleUrls: ["./live-classes.component.scss"],
 })
 export class LiveClassesComponent {
   readonly auth = inject(AuthService);

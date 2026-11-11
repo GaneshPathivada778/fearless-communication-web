@@ -7,23 +7,23 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { CallbackRequestComponent } from "./callback-request.component";
-import { CommunityFooterComponent } from "./community-footer.component";
+import { CallbackRequestComponent } from "../callback-request/callback-request.component";
+import { CommunityFooterComponent } from "../community-footer/community-footer.component";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 import {
   AUDIENCES,
   COMMUNITY_LINKS,
   LEARNER_REVIEWS,
   LEARNING_PATHS,
-} from "./home-content";
-import { WEBINAR, webinarHasEnded } from "./webinar-content";
+} from "../home-content";
+import { WEBINAR, webinarHasEnded } from "../webinar-content";
 
 @Component({
   standalone: true,
   imports: [RouterLink, CommunityFooterComponent, CallbackRequestComponent],
   templateUrl: "./home.component.html",
-  styleUrls: ["./community-theme.css", "./home.component.css"],
+  styleUrls: ["../styles/community-theme.scss", "./home.component.scss"],
 })
 export class HomeComponent implements OnDestroy {
   readonly auth = inject(AuthService);

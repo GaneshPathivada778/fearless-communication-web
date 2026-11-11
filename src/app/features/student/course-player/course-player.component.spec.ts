@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { TestBed } from "@angular/core/testing";
 import { CoursePlayerComponent } from "./course-player.component";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 import { ActivatedRoute, provideRouter } from "@angular/router";
 import { of } from "rxjs";
 import { signal } from "@angular/core";

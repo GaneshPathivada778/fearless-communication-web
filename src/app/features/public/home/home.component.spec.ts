@@ -4,8 +4,8 @@ import { provideZoneChangeDetection, signal } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { HomeComponent } from "./home.component";
-import { AuthService } from "../../core/auth.service";
-import { WEBINAR, webinarHasEnded } from "./webinar-content";
+import { AuthService } from "../../../core/auth.service";
+import { WEBINAR, webinarHasEnded } from "../webinar-content";
 
 describe("FCC community homepage", () => {
   beforeEach(() => {

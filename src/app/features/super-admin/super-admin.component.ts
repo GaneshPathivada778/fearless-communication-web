@@ -1,4 +1,4 @@
-import { CallbackRequestsComponent } from "../admin/callback-requests.component";
+import { CallbackRequestsComponent } from "../admin/callback-requests/callback-requests.component";
 import { forkJoin, finalize } from "rxjs";
 import { trackById } from "../../core/ui-utils";
 import { Component, OnInit } from "@angular/core";

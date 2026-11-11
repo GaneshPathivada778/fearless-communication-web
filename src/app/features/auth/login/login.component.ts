@@ -1,13 +1,13 @@
 import {
   authDestination,
   membershipReturnUrl,
-} from "../../core/auth-navigation";
+} from "../../../core/auth-navigation";
 import { Component } from "@angular/core";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Router, RouterLink, ActivatedRoute } from "@angular/router";
 import { finalize } from "rxjs";
-import { AuthService } from "../../core/auth.service";
-import { errorMessage } from "../../core/ui-utils";
+import { AuthService } from "../../../core/auth.service";
+import { errorMessage } from "../../../core/ui-utils";
 @Component({
   standalone: true,
   imports: [FormsModule, RouterLink],
@@ -18,27 +18,15 @@ import { errorMessage } from "../../core/ui-utils";
       (ngSubmit)="submit(form)"
       [attr.aria-busy]="pending"
     >
-      <span class="eyebrow">JOIN FCC</span>
-      <h1>Join the FCC community</h1>
-      <p>
-        One community for learning and practicing spoken English. Create your
-        learner account to get started.
-      </p>
+      <span class="eyebrow">WELCOME BACK</span>
+      <h1>Sign in to FCC</h1>
       @if (returnUrl) {
         <p class="auth-context">
-          Your membership selection is saved. After creating your account,
-          you’ll return to review the offer.
+          Your membership selection is saved. After signing in, you’ll return to
+          review the offer.
         </p>
-        <a class="fcc-back" [routerLink]="returnTree">Compare memberships</a>
       }
       <fieldset [disabled]="pending">
-        <label
-          >Full name<input
-            name="name"
-            [(ngModel)]="name"
-            required
-            autocomplete="name"
-        /></label>
         <label
           >Email<input
             name="email"
@@ -60,37 +48,33 @@ import { errorMessage } from "../../core/ui-utils";
             [(ngModel)]="password"
             type="password"
             required
-            minlength="8"
-            autocomplete="new-password"
+            autocomplete="current-password"
             #passwordField="ngModel"
             [attr.aria-invalid]="passwordField.touched && passwordField.invalid"
             aria-describedby="password-error"
         /></label>
         @if (passwordField.touched && passwordField.invalid) {
-          <p id="password-error" class="error">Use at least 8 characters.</p>
+          <p id="password-error" class="error">Enter your password.</p>
         }
         <button
           class="btn primary full"
           type="submit"
           [disabled]="form.invalid || pending"
         >
-          {{ pending ? "Please wait…" : "Create account" }}
+          {{ pending ? "Please wait…" : "Sign in" }}
         </button>
       </fieldset>
       @if (error) {
         <div class="error" role="alert">{{ error }}</div>
       }
       <p class="center">
-        Already registered?
-        <a routerLink="/login" [queryParams]="{ returnUrl: returnUrl }"
-          >Sign in</a
-        >
+        New to FCC?
+        <a routerLink="/" fragment="register">Explore the free webinar</a>
       </p>
     </form>
   </div>`,
 })
-export class RegisterComponent {
-  name = "";
+export class LoginComponent {
   email = "";
   password = "";
   error = "";
@@ -105,23 +89,16 @@ export class RegisterComponent {
       route.snapshot.queryParamMap.get("returnUrl"),
     );
   }
-  get returnTree() {
-    return this.returnUrl ? this.router.parseUrl(this.returnUrl) : null;
-  }
   submit(form: NgForm) {
     if (this.pending) return;
     if (form.invalid) {
       form.control.markAllAsTouched();
       return;
     }
-    if (!this.name.trim()) {
-      this.error = "Enter your name.";
-      return;
-    }
     this.error = "";
     this.pending = true;
     this.auth
-      .register(this.name.trim(), this.email.trim(), this.password)
+      .login(this.email.trim(), this.password)
       .pipe(finalize(() => (this.pending = false)))
       .subscribe({
         next: (session) => {

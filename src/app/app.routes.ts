@@ -12,7 +12,7 @@ export const routes: Routes = [
     path: "contact",
     title: "Contact us | Fearless Communication Club",
     loadComponent: () =>
-      import("./features/public/contact.component").then(
+      import("./features/public/contact/contact.component").then(
         (m) => m.ContactComponent,
       ),
   },
@@ -21,13 +21,13 @@ export const routes: Routes = [
     path: "",
     title: "Fearless Communication Club | Spoken English Community",
     loadComponent: () =>
-      import("./features/public/home.component").then((m) => m.HomeComponent),
+      import("./features/public/home/home.component").then((m) => m.HomeComponent),
   },
   {
     path: "login",
     title: "Sign in | FCC",
     loadComponent: () =>
-      import("./features/auth/login.component").then((m) => m.LoginComponent),
+      import("./features/auth/login/login.component").then((m) => m.LoginComponent),
   },
   { path: "register", redirectTo: "", pathMatch: "full" },
   { path: "admin-register", redirectTo: "login", pathMatch: "full" },
@@ -36,7 +36,7 @@ export const routes: Routes = [
     path: "dashboard",
     canActivate: [authGuard, studentDashboardGuard],
     loadComponent: () =>
-      import("./features/student/dashboard.component").then(
+      import("./features/student/dashboard/dashboard.component").then(
         (m) => m.DashboardComponent,
       ),
   },
@@ -45,7 +45,7 @@ export const routes: Routes = [
     title: "Courses & Learning Library | Fearless Communication Club",
     canActivate: [authGuard, coursesPageGuard],
     loadComponent: () =>
-      import("./features/student/courses.component").then(
+      import("./features/student/courses/courses.component").then(
         (m) => m.CoursesComponent,
       ),
   },
@@ -54,7 +54,7 @@ export const routes: Routes = [
     title: "Edit Course Curriculum | FCC Admin",
     canMatch: [adminCourseMatchGuard],
     loadComponent: () =>
-      import("./features/admin/admin-course.component").then(
+      import("./features/admin/admin-course/admin-course.component").then(
         (m) => m.AdminCourseComponent,
       ),
   },
@@ -63,7 +63,7 @@ export const routes: Routes = [
     title: "Speak with Confidence | Fearless Communication Club",
     canActivate: [authGuard],
     loadComponent: () =>
-      import("./features/student/course-player.component").then(
+      import("./features/student/course-player/course-player.component").then(
         (m) => m.CoursePlayerComponent,
       ),
   },
@@ -72,7 +72,7 @@ export const routes: Routes = [
     title: "Live Classes | Fearless Communication Club",
     canActivate: [authGuard],
     loadComponent: () =>
-      import("./features/student/live-classes.component").then(
+      import("./features/student/live-classes/live-classes.component").then(
         (m) => m.LiveClassesComponent,
       ),
   },
@@ -80,7 +80,7 @@ export const routes: Routes = [
     path: "events",
     canActivate: [authGuard],
     loadComponent: () =>
-      import("./features/student/dashboard.component").then(
+      import("./features/student/dashboard/dashboard.component").then(
         (m) => m.DashboardComponent,
       ),
   },
@@ -88,7 +88,7 @@ export const routes: Routes = [
     path: "learning",
     canActivate: [authGuard, roleGuard(["Student"])],
     loadComponent: () =>
-      import("./features/student/learning.component").then(
+      import("./features/student/learning/learning.component").then(
         (m) => m.LearningComponent,
       ),
   },
@@ -96,7 +96,7 @@ export const routes: Routes = [
     path: "learning/:id",
     canActivate: [authGuard, roleGuard(["Student"])],
     loadComponent: () =>
-      import("./features/student/video-player.component").then(
+      import("./features/student/video-player/video-player.component").then(
         (m) => m.VideoPlayerComponent,
       ),
   },
@@ -105,7 +105,7 @@ export const routes: Routes = [
     canActivate: [memberPageGuard],
     title: "Compare memberships | FCC",
     loadComponent: () =>
-      import("./features/payments/memberships.component").then(
+      import("./features/payments/memberships/memberships.component").then(
         (m) => m.MembershipsComponent,
       ),
   },
@@ -138,7 +138,7 @@ export const routes: Routes = [
     path: "admin",
     canActivate: [authGuard, roleGuard(["Admin"])],
     loadComponent: () =>
-      import("./features/admin/admin-shell.component").then(
+      import("./features/admin/admin-shell/admin-shell.component").then(
         (m) => m.AdminShellComponent,
       ),
   },
@@ -147,7 +147,7 @@ export const routes: Routes = [
     title: "Course Management | FCC Admin",
     canActivate: [authGuard, roleGuard(["Admin"])],
     loadComponent: () =>
-      import("./features/admin/admin-course.component").then(
+      import("./features/admin/admin-course/admin-course.component").then(
         (m) => m.AdminCourseComponent,
       ),
   },
@@ -156,7 +156,7 @@ export const routes: Routes = [
     title: "Edit Course | FCC Admin",
     canActivate: [authGuard, roleGuard(["Admin"])],
     loadComponent: () =>
-      import("./features/admin/admin-course.component").then(
+      import("./features/admin/admin-course/admin-course.component").then(
         (m) => m.AdminCourseComponent,
       ),
   },

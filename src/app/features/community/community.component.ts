@@ -75,7 +75,7 @@ export interface FamiliarMember {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: "./community.component.html",
-  styleUrls: ["./community.component.css"],
+  styleUrls: ["./community.component.scss"],
 })
 export class CommunityComponent {
   readonly auth = inject(AuthService);

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { forkJoin, finalize } from "rxjs";
-import { ApiService } from "../../core/api.service";
-import { percent } from "../../core/ui-utils";
+import { ApiService } from "../../../core/api.service";
+import { percent } from "../../../core/ui-utils";
 @Component({
   standalone: true,
   imports: [RouterLink],

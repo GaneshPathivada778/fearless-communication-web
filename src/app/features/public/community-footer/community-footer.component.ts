@@ -1,19 +1,19 @@
 import { Component, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 import {
   COMMUNITY_CONTACT,
   COMMUNITY_LINKS,
   SOCIAL_LINKS,
-} from "./home-content";
-import { SocialIconComponent } from "./social-icon.component";
+} from "../home-content";
+import { SocialIconComponent } from "../social-icon/social-icon.component";
 
 @Component({
   selector: "fcc-community-footer",
   standalone: true,
   imports: [RouterLink, SocialIconComponent],
   templateUrl: "./community-footer.component.html",
-  styleUrl: "./community-footer.component.css",
+  styleUrl: "./community-footer.component.scss",
 })
 export class CommunityFooterComponent {
   readonly auth = inject(AuthService);

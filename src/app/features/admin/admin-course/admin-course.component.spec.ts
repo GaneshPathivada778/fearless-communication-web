@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { provideRouter } from "@angular/router";
 import { AdminCourseComponent } from "./admin-course.component";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("AdminCourseComponent", () => {

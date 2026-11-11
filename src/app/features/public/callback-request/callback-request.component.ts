@@ -20,7 +20,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
   standalone: true,
   imports: [FormsModule],
   templateUrl: "./callback-request.component.html",
-  styleUrl: "./callback-request.component.css",
+  styleUrl: "./callback-request.component.scss",
 })
 export class CallbackRequestComponent implements OnDestroy {
   private readonly document = inject(DOCUMENT);

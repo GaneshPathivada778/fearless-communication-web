@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/auth.service";
+import { AuthService } from "../../../core/auth.service";
 
 export interface Course {
   id: string;
@@ -85,7 +85,7 @@ export const FIGMA_COURSES: Course[] = [
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: "./courses.component.html",
-  styleUrls: ["./courses.component.css"],
+  styleUrls: ["./courses.component.scss"],
 })
 export class CoursesComponent {
   private static readonly STORAGE_KEY = "fcc_courses_catalog";
